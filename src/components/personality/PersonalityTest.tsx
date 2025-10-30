@@ -105,19 +105,19 @@ export function PersonalityTest() {
     return (
       <div style={{ 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontFamily: 'system-ui, -apple-system, sans-serif',
       }}>
         <div style={{ textAlign: 'center' }}>
-          <Brain size={48} color="#FFFFFF" style={{ 
+          <Brain size={48} color="#A78BFA" style={{ 
             animation: 'pulse 2s infinite',
             marginBottom: '20px'
           }} />
           <h2 style={{ 
-            color: '#FFFFFF', 
+            color: '#E9D5FF', 
             fontSize: '24px',
             fontWeight: '400',
             letterSpacing: '0.05em'
@@ -133,12 +133,12 @@ export function PersonalityTest() {
     return (
       <div style={{ 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <div style={{ color: '#FFFFFF' }}>Вопросы не найдены</div>
+        <div style={{ color: '#E9D5FF' }}>Вопросы не найдены</div>
       </div>
     );
   }
@@ -150,7 +150,7 @@ export function PersonalityTest() {
   return (
     <div style={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
       fontFamily: 'system-ui, -apple-system, sans-serif',
       padding: '40px 24px',
       position: 'relative',
@@ -162,8 +162,9 @@ export function PersonalityTest() {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundImage: `radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-                         radial-gradient(circle at 70% 80%, rgba(244, 114, 182, 0.3) 0%, transparent 50%)`,
+        backgroundImage: `radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                         radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+                         radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 50%)`,
         pointerEvents: 'none'
       }} />
 
@@ -183,21 +184,21 @@ export function PersonalityTest() {
             padding: '12px 24px',
             cursor: 'pointer',
             borderRadius: '12px',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            backgroundColor: 'rgba(255, 255, 255, 0.15)',
-            color: '#FFFFFF',
+            border: '1px solid rgba(167, 139, 250, 0.3)',
+            backgroundColor: 'rgba(30, 27, 75, 0.5)',
+            color: '#E9D5FF',
             fontSize: '14px',
             fontWeight: '500',
             backdropFilter: 'blur(10px)',
             transition: 'all 0.3s ease'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            e.currentTarget.style.backgroundColor = 'rgba(30, 27, 75, 0.8)';
+            e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.6)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            e.currentTarget.style.backgroundColor = 'rgba(30, 27, 75, 0.5)';
+            e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.3)';
           }}
         >
           <ArrowLeft size={18} />
@@ -215,20 +216,22 @@ export function PersonalityTest() {
             gap: '12px',
             marginBottom: '16px'
           }}>
-            <Brain size={36} color="#FFFFFF" />
             <h1 style={{
-              fontSize: '42px',
-              fontWeight: '400',
-              color: '#FFFFFF',
+              fontSize: '48px',
+              fontWeight: '700',
+              background: 'linear-gradient(135deg, #E9D5FF 0%, #A78BFA 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               letterSpacing: '0.05em'
             }}>
               Тест Личности
             </h1>
           </div>
           <p style={{
-            color: 'rgba(255, 255, 255, 0.9)',
+            color: '#C4B5FD',
             fontSize: '16px',
-            letterSpacing: '0.05em'
+            letterSpacing: '0.05em',
+            opacity: 0.9
           }}>
             Узнайте свой уникальный психологический профиль
           </p>
@@ -252,7 +255,7 @@ export function PersonalityTest() {
               <span style={{
                 fontSize: '16px',
                 fontWeight: '600',
-                color: '#667eea'
+                color: '#A78BFA'
               }}>
                 Вопрос {currentQuestionIndex + 1} из {questions.length}
               </span>
@@ -285,7 +288,7 @@ export function PersonalityTest() {
               <div style={{
                 width: `${progress}%`,
                 height: '100%',
-                background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(90deg, #A78BFA 0%, #8B5CF6 100%)',
                 transition: 'width 0.3s ease',
                 borderRadius: '8px'
               }} />
@@ -293,11 +296,11 @@ export function PersonalityTest() {
           </div>
 
           <div style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%)',
             padding: '32px',
             borderRadius: '16px',
             marginBottom: '32px',
-            boxShadow: '0 4px 16px rgba(102, 126, 234, 0.3)'
+            boxShadow: '0 4px 16px rgba(167, 139, 250, 0.3)'
           }}>
             <h2 style={{
               fontSize: '24px',
@@ -338,11 +341,11 @@ export function PersonalityTest() {
                     style={{
                       padding: '20px 0',
                       border: isSelected 
-                        ? '3px solid #667eea' 
+                        ? '3px solid #A78BFA' 
                         : '2px solid #E5E7EB',
                       borderRadius: '12px',
                       background: isSelected
-                        ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                        ? 'linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%)'
                         : '#FFFFFF',
                       color: isSelected ? '#FFFFFF' : '#1F2937',
                       fontSize: '24px',
@@ -353,9 +356,9 @@ export function PersonalityTest() {
                     }}
                     onMouseEnter={(e) => {
                       if (!isSelected) {
-                        e.currentTarget.style.borderColor = '#667eea';
+                        e.currentTarget.style.borderColor = '#A78BFA';
                         e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.2)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(167, 139, 250, 0.2)';
                       }
                     }}
                     onMouseLeave={(e) => {
@@ -423,7 +426,7 @@ export function PersonalityTest() {
               }}
               onMouseEnter={(e) => {
                 if (currentQuestionIndex !== 0) {
-                  e.currentTarget.style.borderColor = '#667eea';
+                  e.currentTarget.style.borderColor = '#A78BFA';
                   e.currentTarget.style.transform = 'translateX(-2px)';
                 }
               }}
@@ -443,7 +446,7 @@ export function PersonalityTest() {
                   padding: '14px 28px',
                   borderRadius: '12px',
                   border: 'none',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%)',
                   color: '#FFFFFF',
                   fontSize: '16px',
                   fontWeight: '500',
@@ -452,16 +455,16 @@ export function PersonalityTest() {
                   alignItems: 'center',
                   gap: '8px',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
+                  boxShadow: '0 4px 12px rgba(167, 139, 250, 0.4)',
                   flex: 1
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateX(2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(102, 126, 234, 0.5)';
+                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(167, 139, 250, 0.5)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateX(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(167, 139, 250, 0.4)';
                 }}
               >
                 Вперед
@@ -538,11 +541,11 @@ export function PersonalityTest() {
                 height: '40px',
                 borderRadius: '8px',
                 border: currentQuestionIndex === index 
-                  ? '2px solid #FFFFFF' 
+                  ? '2px solid #A78BFA' 
                   : 'none',
                 background: answers[q.id] !== undefined
                   ? 'linear-gradient(135deg, #10B981 0%, #059669 100%)'
-                  : 'rgba(255, 255, 255, 0.3)',
+                  : 'rgba(167, 139, 250, 0.3)',
                 color: '#FFFFFF',
                 fontSize: '14px',
                 fontWeight: '500',

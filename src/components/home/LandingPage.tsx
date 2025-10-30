@@ -379,6 +379,7 @@ export function LandingPage() {
                   to="/personality/result"
                   style={{
                     backgroundColor: '#B4C4D4',
+                    // backgroundColor: '#da5353',
                     color: '#FFFFFF',
                     padding: '12px 16px',
                     borderRadius: '12px',
@@ -455,6 +456,7 @@ export function LandingPage() {
                   to="/personality/test"
                   style={{
                     backgroundColor: '#B4C4D4',
+                    //backgroundColor: '#da5353',
                     color: '#FFFFFF',
                     padding: '14px 20px',
                     borderRadius: '12px',
