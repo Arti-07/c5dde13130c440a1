@@ -135,3 +135,21 @@ export interface GenerateMediaForAmbientResponse {
   voice_error?: string;
 }
 
+export interface ProfessionInfoRequest {
+  profession_title: string;
+  profession_description?: string;
+}
+
+export interface ProfessionInfoCard {
+  id: string;
+  type: string;
+  title: string;
+  icon: string;
+  content: Record<string, unknown>;
+}
+
+export interface ProfessionInfoResponse {
+  profession_title: string;
+  cards: ProfessionInfoCard[];
+}
+

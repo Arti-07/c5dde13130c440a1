@@ -9,7 +9,9 @@ import type {
   AmbientsWithMediaRequest,
   AmbientsWithMediaResponse,
   GenerateMediaForAmbientRequest,
-  GenerateMediaForAmbientResponse
+  GenerateMediaForAmbientResponse,
+  ProfessionInfoRequest,
+  ProfessionInfoResponse
 } from '../types/vibe';
 
 const BASE_URL = 'http://127.0.0.1:8000';
@@ -212,5 +214,35 @@ export async function generateMediaForAmbient(
 export function getMediaUrl(mediaPath: string): string {
   const token = localStorage.getItem('access_token');
   return `${BASE_URL}/vibe/media/${mediaPath.replace('ambients/', '')}?token=${token}`;
+}
+
+/**
+ * Получить детальную информацию о профессии
+ */
+export async function getProfessionInfo(
+  request: ProfessionInfoRequest
+): Promise<ProfessionInfoResponse> {
+  const response = await fetch(`${BASE_URL}/vibe/profession-info`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Необходима авторизация');
+    }
+    if (response.status === 400) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Ошибка получения информации о профессии');
+    }
+    if (response.status === 500) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Ошибка сервера при получении информации');
+    }
+    throw new Error('Ошибка при получении информации о профессии');
+  }
+
+  return response.json();
 }
 

@@ -938,6 +938,47 @@ export function VibeGenerator() {
                     </div>
                   ))}
                 </div>
+
+                {/* REMOVE_THIS_BUTTON: Button to view detailed profession info - easy to remove by deleting this section */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    navigate('/vibe/profession-info', {
+                      state: {
+                        professionTitle: profession.title,
+                        professionDescription: profession.description
+                      }
+                    });
+                  }}
+                  style={{
+                    marginTop: '16px',
+                    padding: '8px 16px',
+                    background: 'rgba(139, 92, 246, 0.2)',
+                    border: '1px solid rgba(139, 92, 246, 0.4)',
+                    borderRadius: '8px',
+                    color: '#C4B5FD',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(139, 92, 246, 0.3)';
+                    e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.6)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(139, 92, 246, 0.2)';
+                    e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.4)';
+                  }}
+                >
+                  📊 Подробная информация
+                </button>
               </div>
             </div>
           ))}
