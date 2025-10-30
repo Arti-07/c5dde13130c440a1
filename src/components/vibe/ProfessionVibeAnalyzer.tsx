@@ -90,29 +90,25 @@ export function ProfessionVibeAnalyzer() {
 
   const handleSubmit = () => {
     // Собираем все ответы (обычные и кастомные)
-    const allAnswers = questions.map((q, index) => ({
-      questionId: q.id,
-      questionNumber: index + 1,
-      question: q.question,
+    const allAnswers = questions.map((q) => ({
+      question_id: q.id,
+      question_text: q.question,
       answer: answers[q.id] 
-        ? q.options.find(opt => opt.id === answers[q.id])?.text 
-        : customAnswers[q.id]
+        ? q.options.find(opt => opt.id === answers[q.id])?.text || ''
+        : customAnswers[q.id] || ''
     }));
     
-    // Формируем текст для отображения
-    const answersText = allAnswers
-      .map(a => `${a.questionNumber}. ${a.question}\n   → ${a.answer}`)
-      .join('\n\n');
-    
-    // TODO: Отправить ответы на бэк для финального анализа
     console.log('Submitting answers:', allAnswers);
     console.log('Profession:', profession?.title);
     
-    alert(
-      `Твои ответы:\n\n${answersText}\n\n` +
-      `Профессия: ${profession?.title}\n\n` +
-      `TODO: Реализовать финальный анализ`
-    );
+    // Переходим на страницу с окружениями
+    navigate('/vibe/ambients', {
+      state: {
+        professionTitle: profession?.title,
+        questionAnswers: allAnswers,
+        useTemplate: true // Можно сделать переключателем для тестирования // #TODO: FALSE
+      }
+    });
   };
 
   const isCurrentQuestionAnswered = () => {
