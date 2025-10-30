@@ -14,6 +14,7 @@ import { UIShowcase } from './components/ui/UIShowcase';
 import { LandingPage } from './components/home/LandingPage';
 import { VibeGenerator, ProfessionVibeAnalyzer } from './components/vibe';
 import { AudioTest } from './components/audio/AudioTest';
+import { ImageGenerator } from './components/image/ImageGenerator';
 
 
 function App() {
@@ -142,6 +143,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AudioTest />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/image-generator"
+            element={
+              <ProtectedRoute>
+                <ImageGenerator />
               </ProtectedRoute>
             }
           />
