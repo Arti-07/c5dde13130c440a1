@@ -35,3 +35,18 @@ export interface VibeQuestionsResponse {
   questions: ClarifyingQuestion[];
 }
 
+export interface ProfessionValidateRequest {
+  profession_title: string;
+}
+
+export interface ProfessionValidateResponse {
+  is_valid: boolean;
+  status: 'valid' | 'invalid' | 'too_general' | 'rare' | 'obsolete';
+  message: string;
+  suggestions: string[];
+  found_count: number;
+  sample_vacancies: string[];
+  hh_total_found: number;
+  query: string;
+}
+
