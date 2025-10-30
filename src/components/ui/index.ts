@@ -3,4 +3,6 @@ export { Card } from './Card';
 export { Badge } from './Badge';
 export { Input } from './Input';
 export { UIShowcase } from './UIShowcase';
+export { GameLoadingModal } from './GameLoadingModal';
+export { RunnerGame } from './RunnerGame';
 
