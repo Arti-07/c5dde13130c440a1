@@ -48,6 +48,9 @@ export function Header() {
           <Link to="/audio-test" style={{ color: '#6B7280', textDecoration: 'none', fontSize: '14px' }}>
             Audio Test
           </Link>
+          <Link to="/image-generator" style={{ color: '#6B7280', textDecoration: 'none', fontSize: '14px' }}>
+            🎨 Генератор изображений
+          </Link>
           <Link to="/about" style={{ color: '#6B7280', textDecoration: 'none', fontSize: '14px' }}>
             О нас
           </Link>
