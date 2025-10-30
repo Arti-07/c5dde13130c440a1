@@ -15,3 +15,23 @@ export interface VibeGenerateResponse {
   has_astrology_data: boolean;
 }
 
+export interface QuestionOption {
+  id: string;
+  text: string;
+}
+
+export interface ClarifyingQuestion {
+  id: string;
+  question: string;
+  allow_custom_answer: boolean;
+  options: QuestionOption[];
+}
+
+export interface VibeQuestionsRequest {
+  profession_title: string;
+}
+
+export interface VibeQuestionsResponse {
+  questions: ClarifyingQuestion[];
+}
+

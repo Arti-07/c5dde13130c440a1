@@ -72,7 +72,6 @@ export function VibeGenerator() {
   const [hasAstrologyData, setHasAstrologyData] = useState(false);
   const [isDropZoneActive, setIsDropZoneActive] = useState(false);
   const [selectedProfession, setSelectedProfession] = useState<ProfessionCard | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasGeneratedCards, setHasGeneratedCards] = useState(false);
 
   useEffect(() => {
@@ -83,7 +82,9 @@ export function VibeGenerator() {
     // Сначала загружаем из localStorage
     const cachedData = loadProfessionsFromStorage();
     if (cachedData && cachedData.professions.length > 0) {
-      setRecommendedProfessions(cachedData.professions);
+      // Сортируем по matchScore в порядке убывания
+      const sortedProfessions = [...cachedData.professions].sort((a, b) => b.matchScore - a.matchScore);
+      setRecommendedProfessions(sortedProfessions);
       setHasPersonalityData(cachedData.hasPersonalityData);
       setHasAstrologyData(cachedData.hasAstrologyData);
       setHasGeneratedCards(true);
@@ -99,7 +100,9 @@ export function VibeGenerator() {
       
       const response = await generateProfessionCards();
       
-      setRecommendedProfessions(response.professions);
+      // Сортируем по matchScore в порядке убывания
+      const sortedProfessions = [...response.professions].sort((a, b) => b.matchScore - a.matchScore);
+      setRecommendedProfessions(sortedProfessions);
       setHasPersonalityData(response.has_personality_data);
       setHasAstrologyData(response.has_astrology_data);
       setHasGeneratedCards(true);
@@ -138,7 +141,9 @@ export function VibeGenerator() {
       
       const response = await generateProfessionCards();
       
-      setRecommendedProfessions(response.professions);
+      // Сортируем по matchScore в порядке убывания
+      const sortedProfessions = [...response.professions].sort((a, b) => b.matchScore - a.matchScore);
+      setRecommendedProfessions(sortedProfessions);
       setHasPersonalityData(response.has_personality_data);
       setHasAstrologyData(response.has_astrology_data);
       setHasGeneratedCards(true);
@@ -196,21 +201,11 @@ export function VibeGenerator() {
     setSelectedProfession(profession);
   };
 
-  const handleAnalyze = async () => {
+  const handleAnalyze = () => {
     if (!selectedProfession) return;
     
-    setIsAnalyzing(true);
-    
-    console.log('Отправка запроса на бэк для анализа профессии:', selectedProfession.title);
-    console.log('Данные пользователя:', {
-      hasPersonality: hasPersonalityData,
-      hasAstrology: hasAstrologyData
-    });
-    
-    setTimeout(() => {
-      setIsAnalyzing(false);
-      alert(`Анализ профессии "${selectedProfession.title}" завершен! (заглушка)`);
-    }, 2000);
+    // Переход на страницу с вопросами и анализом
+    navigate('/vibe/analyze', { state: { profession: selectedProfession } });
   };
 
   const handleCustomSearch = (e: React.FormEvent) => {
@@ -626,18 +621,15 @@ export function VibeGenerator() {
               }}>
                 <button
                   onClick={handleAnalyze}
-                  disabled={isAnalyzing}
                   style={{
                     padding: '14px 32px',
-                    background: isAnalyzing 
-                      ? 'rgba(102, 126, 234, 0.5)' 
-                      : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '12px',
                     fontSize: '16px',
                     fontWeight: '600',
-                    cursor: isAnalyzing ? 'not-allowed' : 'pointer',
+                    cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     boxShadow: '0 8px 24px rgba(102, 126, 234, 0.4)',
                     display: 'flex',
@@ -645,29 +637,16 @@ export function VibeGenerator() {
                     gap: '8px',
                   }}
                   onMouseEnter={(e) => {
-                    if (!isAnalyzing) {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 12px 32px rgba(102, 126, 234, 0.5)';
-                    }
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(102, 126, 234, 0.5)';
                   }}
                   onMouseLeave={(e) => {
-                    if (!isAnalyzing) {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(102, 126, 234, 0.4)';
-                    }
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(102, 126, 234, 0.4)';
                   }}
                 >
-                  {isAnalyzing ? (
-                    <>
-                      <Sparkles size={18} style={{ animation: 'pulse 1s infinite' }} />
-                      Анализируем...
-                    </>
-                  ) : (
-                    <>
-                      <Zap size={18} />
-                      Узнать вайб профессии
-                    </>
-                  )}
+                  <Zap size={18} />
+                  Узнать вайб профессии
                 </button>
                 <button
                   onClick={() => setSelectedProfession(null)}
