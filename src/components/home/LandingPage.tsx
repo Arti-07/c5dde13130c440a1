@@ -264,7 +264,7 @@ export function LandingPage() {
         {/* Feature 4 - Personality Card */}
         <div
           style={{
-            background: 'linear-gradient(135deg, #EAF3FF 0%, #DDEBFF 100%)',
+            background: 'linear-gradient(135deg, #DDE5ED 0%, #D4DCE4 100%)',
             padding: '24px',
             borderRadius: '20px',
             minHeight: '280px',
@@ -272,9 +272,9 @@ export function LandingPage() {
             flexDirection: 'column',
             position: 'relative',
             overflow: 'hidden',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
             transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            border: '1px solid rgba(0, 0, 0, 0.06)',
+            border: '1px solid rgba(0, 0, 0, 0.04)',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-4px)';
@@ -330,10 +330,10 @@ export function LandingPage() {
               <Brain size={22} color="#FFFFFF" />
             </div>
             <div>
-              <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>
+              <div style={{ fontSize: '18px', fontWeight: '600', color: '#5A6A7A' }}>
                 Тест Личности
               </div>
-              <div style={{ fontSize: '12px', color: '#6B7280' }}>
+              <div style={{ fontSize: '12px', color: '#8A99A9' }}>
                 Узнай свой тип
               </div>
             </div>
@@ -342,17 +342,17 @@ export function LandingPage() {
           {latestPersonalityResult ? (
             <>
               <div style={{
-                backgroundColor: '#F3F4F6',
+                backgroundColor: 'rgba(255, 255, 255, 0.4)',
                 padding: '12px',
                 borderRadius: '12px',
                 marginBottom: '16px',
                 position: 'relative',
                 zIndex: 1,
-                border: '1px solid rgba(0, 0, 0, 0.08)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
               }}>
                 <div style={{
                   fontSize: '12px',
-                  color: '#6B7280',
+                  color: '#8A99A9',
                   marginBottom: '6px',
                 }}>
                   Последний результат:
@@ -360,7 +360,7 @@ export function LandingPage() {
                 <div style={{
                   fontSize: '24px',
                   fontWeight: '700',
-                  color: '#000000',
+                  color: '#4A5A6A',
                   letterSpacing: '2px',
                 }}>
                   {latestPersonalityResult.personality_type}
@@ -378,7 +378,7 @@ export function LandingPage() {
                 <Link
                   to="/personality/result"
                   style={{
-                    backgroundColor: '#000000',
+                    backgroundColor: '#B4C4D4',
                     color: '#FFFFFF',
                     padding: '12px 16px',
                     borderRadius: '12px',
@@ -392,7 +392,7 @@ export function LandingPage() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateX(4px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(180, 196, 212, 0.3)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateX(0)';
@@ -406,8 +406,8 @@ export function LandingPage() {
                 <Link
                   to="/personality/history"
                   style={{
-                    backgroundColor: '#F3F4F6',
-                    color: '#1F2937',
+                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    color: '#5A6A7A',
                     padding: '12px 16px',
                     borderRadius: '12px',
                     display: 'flex',
@@ -420,11 +420,11 @@ export function LandingPage() {
                     border: '1px solid rgba(0, 0, 0, 0.08)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#E5E7EB';
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
                     e.currentTarget.style.transform = 'translateX(4px)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#F3F4F6';
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
                     e.currentTarget.style.transform = 'translateX(0)';
                   }}
                 >
@@ -436,7 +436,7 @@ export function LandingPage() {
           ) : (
             <>
               <p style={{
-                color: '#6B7280',
+                color: '#8A99A9',
                 fontSize: '13px',
                 lineHeight: '1.5',
                 marginBottom: '20px',
@@ -454,7 +454,7 @@ export function LandingPage() {
                 <Link
                   to="/personality/test"
                   style={{
-                    backgroundColor: '#000000',
+                    backgroundColor: '#B4C4D4',
                     color: '#FFFFFF',
                     padding: '14px 20px',
                     borderRadius: '12px',
@@ -468,7 +468,7 @@ export function LandingPage() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateX(4px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(180, 196, 212, 0.3)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateX(0)';
@@ -487,7 +487,7 @@ export function LandingPage() {
         <Link
           to="/astrology"
           style={{
-            background: 'linear-gradient(135deg, #EAF3FF 0%, #DDEBFF 100%)',
+            background: 'linear-gradient(135deg, #DDE5ED 0%, #D4DCE4 100%)',
             borderRadius: '20px',
             overflow: 'hidden',
             minHeight: '280px',
@@ -496,9 +496,9 @@ export function LandingPage() {
             padding: '24px',
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
             transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            border: '1px solid rgba(0, 0, 0, 0.06)',
+            border: '1px solid rgba(0, 0, 0, 0.04)',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-4px)';
@@ -566,10 +566,10 @@ export function LandingPage() {
               <Star size={22} color="#FFFFFF" />
             </div>
             <div>
-              <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>
+              <div style={{ fontSize: '18px', fontWeight: '600', color: '#5A6A7A' }}>
                 Астрология
               </div>
-              <div style={{ fontSize: '12px', color: '#6B7280' }}>
+              <div style={{ fontSize: '12px', color: '#8A99A9' }}>
                 Космический профиль
               </div>
             </div>
@@ -578,17 +578,17 @@ export function LandingPage() {
           {astrologyProfile ? (
             <>
               <div style={{
-                backgroundColor: '#F3F4F6',
+                backgroundColor: 'rgba(255, 255, 255, 0.4)',
                 padding: '12px',
                 borderRadius: '12px',
                 marginBottom: '16px',
                 position: 'relative',
                 zIndex: 1,
-                border: '1px solid rgba(0, 0, 0, 0.08)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
               }}>
                 <div style={{
                   fontSize: '12px',
-                  color: '#6B7280',
+                  color: '#8A99A9',
                   marginBottom: '6px',
                 }}>
                   Твой профиль:
@@ -596,7 +596,7 @@ export function LandingPage() {
                 <div style={{
                   fontSize: '18px',
                   fontWeight: '700',
-                  color: '#1F2937',
+                  color: '#4A5A6A',
                   marginBottom: '4px',
                 }}>
                   {astrologyProfile.zodiac_sign && `☀️ ${astrologyProfile.zodiac_sign}`}
@@ -604,7 +604,7 @@ export function LandingPage() {
                 {astrologyProfile.chinese_zodiac && (
                   <div style={{
                     fontSize: '14px',
-                    color: '#6B7280',
+                    color: '#8A99A9',
                   }}>
                     🐉 {astrologyProfile.chinese_zodiac}
                   </div>
@@ -613,7 +613,7 @@ export function LandingPage() {
 
               <div style={{
                 marginTop: 'auto',
-                backgroundColor: '#000000',
+                backgroundColor: '#B4C4D4',
                 color: '#FFFFFF',
                 padding: '14px 20px',
                 borderRadius: '12px',
@@ -628,7 +628,7 @@ export function LandingPage() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateX(4px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(180, 196, 212, 0.3)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateX(0)';
@@ -642,7 +642,7 @@ export function LandingPage() {
           ) : (
             <>
               <p style={{
-                color: '#6B7280',
+                color: '#8A99A9',
                 fontSize: '13px',
                 lineHeight: '1.5',
                 marginBottom: '20px',
@@ -654,7 +654,7 @@ export function LandingPage() {
 
               <div style={{
                 marginTop: 'auto',
-                backgroundColor: '#000000',
+                backgroundColor: '#B4C4D4',
                 color: '#FFFFFF',
                 padding: '14px 20px',
                 borderRadius: '12px',
@@ -669,7 +669,7 @@ export function LandingPage() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateX(4px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(180, 196, 212, 0.3)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateX(0)';
