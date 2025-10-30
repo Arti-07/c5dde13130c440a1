@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft, Sparkles, ThumbsUp, ThumbsDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { 
   AmbientsGenerateResponse, 
   AmbientEnvironment,
@@ -22,6 +22,9 @@ export function AmbientViewer() {
   const [textData, setTextData] = useState<AmbientsGenerateResponse | null>(null);
   const [ambientsWithMedia, setAmbientsWithMedia] = useState<AmbientEnvironmentWithMedia[]>([]);
   const [mediaLoadingStatus, setMediaLoadingStatus] = useState<{ [key: string]: boolean }>({});
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [showFinalChoice, setShowFinalChoice] = useState(false);
   
   // Refs для аудио элементов
   const soundRefs = useRef<{ [key: string]: HTMLAudioElement | null }>({});
@@ -49,6 +52,13 @@ export function AmbientViewer() {
     isGenerating.current = true;
     generateAmbients();
   }, [professionTitle, questionAnswers]);
+
+  // Check if we've reached the end
+  useEffect(() => {
+    if (currentIndex >= ambientsWithMedia.length && ambientsWithMedia.length > 0) {
+      setShowFinalChoice(true);
+    }
+  }, [currentIndex, ambientsWithMedia.length]);
 
   const generateAmbients = async () => {
     try {
@@ -169,32 +179,33 @@ export function AmbientViewer() {
     return url;
   };
 
-  const playSound = (ambientId: string, soundPath?: string) => {
-    if (!soundPath) return;
-    
-    const audio = soundRefs.current[ambientId];
-    if (audio) {
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    }
+
+  const goToNext = () => {
+    if (isAnimating || currentIndex >= ambientsWithMedia.length - 1) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentIndex(prev => prev + 1);
+      setIsAnimating(false);
+    }, 400);
   };
 
-  const handleVoiceHover = (ambientId: string) => {
-    const audio = voiceRefs.current[ambientId];
-    if (audio && audio.paused) {
-      audio.play();
-    }
+  const goToPrev = () => {
+    if (isAnimating || currentIndex <= 0) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentIndex(prev => prev - 1);
+      setIsAnimating(false);
+    }, 400);
   };
 
-  const playVoice = (ambientId: string) => {
-    const audio = voiceRefs.current[ambientId];
-    if (audio) {
-      audio.currentTime = 0;
-      audio.play();
-    }
+  const handlePositiveVibe = () => {
+    console.log('Positive vibe clicked!');
+    // TODO: Implement positive vibe logic
+  };
+
+  const handleNegativeVibe = () => {
+    console.log('Negative vibe clicked!');
+    // TODO: Implement negative vibe logic
   };
 
   if (loading) {
@@ -311,477 +322,704 @@ export function AmbientViewer() {
   return (
     <div style={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
       fontFamily: 'system-ui, -apple-system, sans-serif',
-      padding: '40px 24px 80px',
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Background decoration */}
+      {/* Background effects like vibe page */}
       <div style={{
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundImage: `radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-                         radial-gradient(circle at 70% 80%, rgba(244, 114, 182, 0.3) 0%, transparent 50%)`,
+        backgroundImage: `radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.15) 0%, transparent 40%),
+                         radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.15) 0%, transparent 40%),
+                         radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)`,
         pointerEvents: 'none'
       }} />
 
-      <div style={{ 
-        maxWidth: '900px', 
-        margin: '0 auto',
+      <div style={{
+        position: 'absolute',
+        top: '10%',
+        left: '5%',
+        width: '300px',
+        height: '300px',
+        background: 'radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%)',
+        borderRadius: '50%',
+        filter: 'blur(60px)',
+        animation: 'float 8s ease-in-out infinite',
+        pointerEvents: 'none'
+      }} />
+
+      <div style={{
+        position: 'absolute',
+        bottom: '10%',
+        right: '5%',
+        width: '250px',
+        height: '250px',
+        background: 'radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%)',
+        borderRadius: '50%',
+        filter: 'blur(60px)',
+        animation: 'float 10s ease-in-out infinite reverse',
+        pointerEvents: 'none'
+      }} />
+
+      {/* Header */}
+      <header style={{
+        backgroundColor: 'transparent',
+        padding: '32px 48px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         position: 'relative',
-        zIndex: 1
+        zIndex: 100,
       }}>
-        {/* Header */}
         <button
           onClick={() => navigate(-1)}
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            marginBottom: '32px',
-            padding: '12px 24px',
-            cursor: 'pointer',
-            borderRadius: '12px',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            backgroundColor: 'rgba(255, 255, 255, 0.15)',
-            color: '#FFFFFF',
-            fontSize: '14px',
-            fontWeight: '500',
+            padding: '12px 20px',
+            background: 'rgba(255, 255, 255, 0.05)',
             backdropFilter: 'blur(10px)',
-            transition: 'all 0.3s ease'
+            borderRadius: '12px',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            color: 'rgba(255, 255, 255, 0.9)',
+            fontSize: '15px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+            e.currentTarget.style.transform = 'translateX(-4px)';
+            e.currentTarget.style.borderColor = 'rgba(102, 126, 234, 0.4)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+            e.currentTarget.style.transform = 'translateX(0)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
           }}
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={18} />
           Назад
         </button>
 
-        {/* Title */}
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '20px',
-          padding: '32px',
-          marginBottom: '24px',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-        }}>
+        <div style={{ textAlign: 'center' }}>
           <h1 style={{ 
             color: '#FFFFFF', 
-            fontSize: '36px',
+            fontSize: '28px',
             fontWeight: '700',
-            marginBottom: '12px',
-            textAlign: 'center'
+            margin: 0,
+            letterSpacing: '0.02em'
           }}>
             {textData.profession_title}
           </h1>
-          <p style={{ 
-            color: 'rgba(255, 255, 255, 0.9)', 
-            fontSize: '16px',
-            textAlign: 'center',
-            marginBottom: '0'
-          }}>
-            Погрузитесь в атмосферу профессии через иммерсивные окружения
-          </p>
-          
           {hasMediaLoading && (
-            <div style={{
-              marginTop: '16px',
-              padding: '12px 20px',
-              background: 'rgba(59, 130, 246, 0.2)',
-              borderRadius: '12px',
-              display: 'inline-block',
-              width: '100%',
-              textAlign: 'center'
+            <span style={{ 
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontSize: '13px',
+              fontStyle: 'italic',
+              animation: 'pulse 2s infinite',
+              marginTop: '4px',
+              display: 'block'
             }}>
-              <span style={{ 
-                color: '#FFFFFF',
-                fontSize: '14px',
-                animation: 'pulse 2s infinite'
-              }}>
-                ⏳ Генерация медиа в процессе...
-              </span>
-            </div>
+              ⏳ Генерация медиа...
+            </span>
           )}
         </div>
 
-        {/* Ambients - вертикально */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {ambientsWithMedia.map((ambient, index) => {
-            const isMediaLoading = mediaLoadingStatus[ambient.id];
-            
-            return (
-              <div key={ambient.id} style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)',
-                borderRadius: '20px',
-                padding: '32px',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-              }}>
-                {/* Ambient Header */}
-                <div style={{ marginBottom: '24px' }}>
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '12px',
-                    marginBottom: '12px'
-                  }}>
-                    <span style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '50%',
-                      background: 'rgba(255, 255, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#FFFFFF',
-                      fontSize: '18px',
-                      fontWeight: '600'
-                    }}>
-                      {index + 1}
-                    </span>
-                    <h2 style={{ 
-                      color: '#FFFFFF', 
-                      fontSize: '24px',
-                      fontWeight: '600',
-                      margin: 0
-                    }}>
-                      {ambient.name}
-                    </h2>
-                    {isMediaLoading && (
-                      <span style={{
-                        marginLeft: 'auto',
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        fontSize: '14px',
-                        animation: 'pulse 2s infinite'
-                      }}>
-                        ⏳ Загрузка...
-                      </span>
-                    )}
-                  </div>
-                  <p style={{ 
-                    color: 'rgba(255, 255, 255, 0.95)', 
-                    fontSize: '16px',
-                    lineHeight: '1.7',
-                    margin: 0
-                  }}>
-                    {ambient.text}
-                  </p>
-                </div>
+        <div style={{ width: '120px' }} />
+      </header>
 
-                {/* Image */}
-                {(ambient.image_prompt || ambient.image_path) && (
-                  <div style={{ marginBottom: '24px' }}>
-                    <h3 style={{ 
-                      color: '#FFFFFF', 
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      marginBottom: '12px'
-                    }}>
-                      🖼️ Визуальное окружение
-                    </h3>
-                    {isMediaLoading && !ambient.image_path && !ambient.image_error ? (
-                      <div style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        borderRadius: '12px',
-                        padding: '40px',
-                        textAlign: 'center'
-                      }}>
-                        <div style={{
-                          display: 'inline-block',
-                          width: '40px',
-                          height: '40px',
-                          border: '3px solid rgba(255, 255, 255, 0.3)',
-                          borderTopColor: '#FFFFFF',
-                          borderRadius: '50%',
-                          animation: 'spin 1s linear infinite',
-                          marginBottom: '12px'
-                        }} />
-                        <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: 0 }}>
-                          Генерируется изображение...
-                        </p>
-                      </div>
-                    ) : ambient.image_error ? (
-                      <div style={{
-                        background: 'rgba(239, 68, 68, 0.1)',
-                        border: '1px solid rgba(239, 68, 68, 0.3)',
-                        borderRadius: '12px',
-                        padding: '16px',
-                        color: 'rgba(255, 255, 255, 0.9)'
-                      }}>
-                        Ошибка: {ambient.image_error}
-                      </div>
-                    ) : ambient.image_path ? (
-                      <img 
-                        src={getFullMediaUrl(ambient.image_path) || ''}
-                        alt={ambient.name}
-                        style={{
-                          width: '100%',
-                          borderRadius: '12px',
-                          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
-                        }}
-                      />
-                    ) : null}
-                  </div>
-                )}
-
-                {/* Sound */}
-                {(ambient.sound_prompt || ambient.sound_path) && (
-                  <div style={{ marginBottom: '24px' }}>
-                    <h3 style={{ 
-                      color: '#FFFFFF', 
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      marginBottom: '12px'
-                    }}>
-                      🔊 Звуковое окружение
-                    </h3>
-                    {isMediaLoading && !ambient.sound_path && !ambient.sound_error ? (
-                      <div style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        borderRadius: '12px',
-                        padding: '40px',
-                        textAlign: 'center'
-                      }}>
-                        <div style={{
-                          display: 'inline-block',
-                          width: '40px',
-                          height: '40px',
-                          border: '3px solid rgba(255, 255, 255, 0.3)',
-                          borderTopColor: '#FFFFFF',
-                          borderRadius: '50%',
-                          animation: 'spin 1s linear infinite',
-                          marginBottom: '12px'
-                        }} />
-                        <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: 0 }}>
-                          Генерируется звук...
-                        </p>
-                      </div>
-                    ) : ambient.sound_error ? (
-                      <div style={{
-                        background: 'rgba(239, 68, 68, 0.1)',
-                        border: '1px solid rgba(239, 68, 68, 0.3)',
-                        borderRadius: '12px',
-                        padding: '16px',
-                        color: 'rgba(255, 255, 255, 0.9)'
-                      }}>
-                        Ошибка: {ambient.sound_error}
-                      </div>
-                    ) : ambient.sound_path ? (
-                      <>
-                        {ambient.sound_prompt && (
-                          <p style={{ 
-                            color: 'rgba(255, 255, 255, 0.8)', 
-                            fontSize: '14px',
-                            marginBottom: '12px'
-                          }}>
-                            {ambient.sound_prompt}
-                          </p>
-                        )}
-                        <audio
-                          ref={(el) => {
-                            soundRefs.current[ambient.id] = el;
-                          }}
-                          src={getFullMediaUrl(ambient.sound_path) || ''}
-                          loop
-                          controls
-                          style={{
-                            width: '100%',
-                            marginBottom: '12px'
-                          }}
-                        />
-                        <button
-                          onClick={() => playSound(ambient.id, ambient.sound_path)}
-                          style={{
-                            padding: '10px 20px',
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            border: '1px solid rgba(255, 255, 255, 0.3)',
-                            borderRadius: '8px',
-                            color: '#FFFFFF',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                          }}
-                        >
-                          {soundRefs.current[ambient.id]?.paused ? '▶️ Воспроизвести' : '⏸️ Пауза'}
-                        </button>
-                      </>
-                    ) : null}
-                  </div>
-                )}
-
-                {/* Voice */}
-                {ambient.voice && (
-                  <div>
-                    <h3 style={{ 
-                      color: '#FFFFFF', 
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      marginBottom: '12px'
-                    }}>
-                      🗣️ Голос из окружения
-                    </h3>
-                    <div style={{
-                      background: 'rgba(167, 139, 250, 0.1)',
-                      border: '1px solid rgba(167, 139, 250, 0.3)',
-                      borderRadius: '12px',
-                      padding: '16px',
-                      marginBottom: '12px'
-                    }}>
-                      <p style={{ 
-                        color: '#FFFFFF', 
-                        fontSize: '15px',
-                        fontStyle: 'italic',
-                        margin: 0
-                      }}>
-                        "{ambient.voice}"
-                      </p>
-                    </div>
-                    {isMediaLoading && !ambient.voice_path && !ambient.voice_error ? (
-                      <div style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        borderRadius: '12px',
-                        padding: '40px',
-                        textAlign: 'center'
-                      }}>
-                        <div style={{
-                          display: 'inline-block',
-                          width: '40px',
-                          height: '40px',
-                          border: '3px solid rgba(255, 255, 255, 0.3)',
-                          borderTopColor: '#FFFFFF',
-                          borderRadius: '50%',
-                          animation: 'spin 1s linear infinite',
-                          marginBottom: '12px'
-                        }} />
-                        <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: 0 }}>
-                          Генерируется голос...
-                        </p>
-                      </div>
-                    ) : ambient.voice_error ? (
-                      <div style={{
-                        background: 'rgba(239, 68, 68, 0.1)',
-                        border: '1px solid rgba(239, 68, 68, 0.3)',
-                        borderRadius: '12px',
-                        padding: '16px',
-                        color: 'rgba(255, 255, 255, 0.9)'
-                      }}>
-                        Ошибка: {ambient.voice_error}
-                      </div>
-                    ) : ambient.voice_path ? (
-                      <>
-                        <audio
-                          ref={(el) => {
-                            voiceRefs.current[ambient.id] = el;
-                          }}
-                          src={getFullMediaUrl(ambient.voice_path) || ''}
-                          controls
-                          style={{
-                            width: '100%',
-                            marginBottom: '12px'
-                          }}
-                          onMouseEnter={() => handleVoiceHover(ambient.id)}
-                        />
-                        <button
-                          onClick={() => playVoice(ambient.id)}
-                          style={{
-                            padding: '10px 20px',
-                            background: 'rgba(167, 139, 250, 0.3)',
-                            border: '1px solid rgba(167, 139, 250, 0.5)',
-                            borderRadius: '8px',
-                            color: '#FFFFFF',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.background = 'rgba(167, 139, 250, 0.4)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'rgba(167, 139, 250, 0.3)';
-                          }}
-                        >
-                          🔊 Воспроизвести голос
-                        </button>
-                        <p style={{ 
-                          color: 'rgba(255, 255, 255, 0.6)', 
-                          fontSize: '12px',
-                          marginTop: '8px',
-                          marginBottom: 0
-                        }}>
-                          Наведите на плеер для автовоспроизведения
-                        </p>
-                      </>
-                    ) : null}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Tools Section */}
-        <div style={{
-          marginTop: '32px',
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '20px',
-          padding: '32px',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-        }}>
-          <h2 style={{ 
-            color: '#FFFFFF', 
-            fontSize: '24px',
-            fontWeight: '600',
-            marginBottom: '20px'
-          }}>
-            {textData.tools.title}
-          </h2>
+      {/* Main Content Area */}
+      <main style={{
+        padding: '40px 48px',
+        maxWidth: '1400px',
+        width: '100%',
+        margin: '0 auto',
+        position: 'relative',
+        zIndex: 100
+      }}>
+        {showFinalChoice ? (
+          /* Final Choice Screen */
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-            gap: '12px'
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '40px',
+            padding: '80px 20px'
           }}>
-            {textData.tools.items.map((tool, index) => (
-              <div key={index} style={{
-                padding: '12px 16px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                borderRadius: '10px',
-                color: 'rgba(255, 255, 255, 0.95)',
-                fontSize: '14px',
-                lineHeight: '1.4'
+            <div style={{ textAlign: 'center' }}>
+              <Sparkles size={64} color="#000000" style={{ marginBottom: '24px' }} />
+              <h2 style={{
+                fontSize: '36px',
+                fontWeight: '700',
+                color: '#000000',
+                marginBottom: '16px'
               }}>
-                {tool}
-              </div>
+                Все окружения просмотрены!
+              </h2>
+              <p style={{
+                fontSize: '18px',
+                color: '#6B7280',
+                maxWidth: '600px'
+              }}>
+                Как тебе вайб этой профессии? Выбери свой ответ
+              </p>
+            </div>
+
+            <div style={{
+              display: 'flex',
+              gap: '32px',
+              justifyContent: 'center'
+            }}>
+              <button
+                onClick={handleNegativeVibe}
+                style={{
+                  padding: '24px 48px',
+                  backgroundColor: '#FFFFFF',
+                  border: '2px solid #EF4444',
+                  borderRadius: '16px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '12px',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(239, 68, 68, 0.3)';
+                  e.currentTarget.style.backgroundColor = '#FEF2F2';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.backgroundColor = '#FFFFFF';
+                }}
+              >
+                <ThumbsDown size={48} color="#EF4444" />
+                <span style={{
+                  fontSize: '20px',
+                  fontWeight: '600',
+                  color: '#EF4444'
+                }}>
+                  Минус вайб
+                </span>
+              </button>
+
+              <button
+                onClick={handlePositiveVibe}
+                style={{
+                  padding: '24px 48px',
+                  backgroundColor: '#FFFFFF',
+                  border: '2px solid #10B981',
+                  borderRadius: '16px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '12px',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(16, 185, 129, 0.3)';
+                  e.currentTarget.style.backgroundColor = '#F0FDF4';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.backgroundColor = '#FFFFFF';
+                }}
+              >
+                <ThumbsUp size={48} color="#10B981" />
+                <span style={{
+                  fontSize: '20px',
+                  fontWeight: '600',
+                  color: '#10B981'
+                }}>
+                  Плюс вайб
+                </span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Card Container with Navigation */
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '32px',
+            minHeight: '70vh',
+            position: 'relative'
+          }}>
+            {/* Left Navigation Button */}
+            <button
+              onClick={goToPrev}
+              disabled={currentIndex === 0 || isAnimating}
+              style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '50%',
+                background: currentIndex === 0 
+                  ? 'rgba(255, 255, 255, 0.05)' 
+                  : 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: currentIndex === 0 ? 'rgba(255, 255, 255, 0.3)' : '#FFFFFF',
+                cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                boxShadow: currentIndex === 0 ? 'none' : '0 4px 20px rgba(0, 0, 0, 0.3)',
+                flexShrink: 0,
+                opacity: currentIndex === 0 ? 0.4 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (currentIndex > 0 && !isAnimating) {
+                  e.currentTarget.style.background = 'rgba(102, 126, 234, 0.3)';
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(102, 126, 234, 0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+              }}
+            >
+              <ChevronLeft size={32} strokeWidth={2.5} />
+            </button>
+
+            {/* Card Display Area */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '900px',
+              minHeight: '600px'
+            }}>
+              {ambientsWithMedia.map((ambient, index) => {
+                const isMediaLoading = mediaLoadingStatus[ambient.id];
+                
+                if (index !== currentIndex) return null;
+                
+                return (
+                  <div
+                    key={ambient.id}
+                    style={{
+                      position: 'absolute',
+                      width: '100%',
+                      animation: isAnimating ? 'none' : 'fadeIn 0.5s ease-out',
+                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                  >
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)',
+                      backdropFilter: 'blur(20px)',
+                      borderRadius: '32px',
+                      padding: '56px',
+                      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      maxHeight: '75vh',
+                      overflowY: 'auto'
+                    }}>
+                      {/* Card Header */}
+                      <div style={{ marginBottom: '36px' }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '16px',
+                          marginBottom: '20px'
+                        }}>
+                          <span style={{
+                            width: '52px',
+                            height: '52px',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            color: '#FFFFFF',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '22px',
+                            fontWeight: '700',
+                            flexShrink: 0,
+                            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)'
+                          }}>
+                            {index + 1}
+                          </span>
+                          <h2 style={{
+                            color: '#FFFFFF',
+                            fontSize: '34px',
+                            fontWeight: '700',
+                            margin: 0,
+                            flex: 1,
+                            letterSpacing: '0.02em'
+                          }}>
+                            {ambient.name}
+                          </h2>
+                          {isMediaLoading && (
+                            <span style={{
+                              color: 'rgba(255, 255, 255, 0.7)',
+                              fontSize: '13px',
+                              fontStyle: 'italic',
+                              animation: 'pulse 2s infinite',
+                              background: 'rgba(102, 126, 234, 0.2)',
+                              padding: '8px 14px',
+                              borderRadius: '8px',
+                              border: '1px solid rgba(102, 126, 234, 0.3)'
+                            }}>
+                              ⏳ Загрузка...
+                            </span>
+                          )}
+                        </div>
+                        <p style={{
+                          color: 'rgba(255, 255, 255, 0.85)',
+                          fontSize: '19px',
+                          lineHeight: '1.7',
+                          margin: 0
+                        }}>
+                          {ambient.text}
+                        </p>
+                      </div>
+
+                      {/* Image */}
+                      {(ambient.image_prompt || ambient.image_path) && (
+                        <div style={{ marginBottom: '36px' }}>
+                          <h3 style={{
+                            color: '#FFFFFF',
+                            fontSize: '22px',
+                            fontWeight: '600',
+                            marginBottom: '18px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px'
+                          }}>
+                            <span style={{ fontSize: '26px' }}>🖼️</span>
+                            Визуальное окружение
+                          </h3>
+                          {isMediaLoading && !ambient.image_path && !ambient.image_error ? (
+                            <div style={{
+                              background: 'rgba(102, 126, 234, 0.1)',
+                              borderRadius: '20px',
+                              padding: '56px',
+                              textAlign: 'center',
+                              border: '1px solid rgba(102, 126, 234, 0.2)'
+                            }}>
+                              <div style={{
+                                display: 'inline-block',
+                                width: '56px',
+                                height: '56px',
+                                border: '4px solid rgba(102, 126, 234, 0.3)',
+                                borderTopColor: '#667eea',
+                                borderRadius: '50%',
+                                animation: 'spin 1s linear infinite',
+                                marginBottom: '20px'
+                              }} />
+                              <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: 0, fontWeight: '500', fontSize: '16px' }}>
+                                Генерируется изображение...
+                              </p>
+                            </div>
+                          ) : ambient.image_error ? (
+                            <div style={{
+                              background: 'rgba(239, 68, 68, 0.15)',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              borderRadius: '16px',
+                              padding: '20px',
+                              color: '#FCA5A5'
+                            }}>
+                              Ошибка: {ambient.image_error}
+                            </div>
+                          ) : ambient.image_path ? (
+                            <img
+                              src={getFullMediaUrl(ambient.image_path) || ''}
+                              alt={ambient.name}
+                              style={{
+                                width: '100%',
+                                borderRadius: '20px',
+                                boxShadow: '0 12px 32px rgba(0, 0, 0, 0.5)',
+                                border: '1px solid rgba(255, 255, 255, 0.1)'
+                              }}
+                            />
+                          ) : null}
+                        </div>
+                      )}
+
+                      {/* Sound */}
+                      {(ambient.sound_prompt || ambient.sound_path) && (
+                        <div style={{ marginBottom: '36px' }}>
+                          <h3 style={{
+                            color: '#FFFFFF',
+                            fontSize: '22px',
+                            fontWeight: '600',
+                            marginBottom: '18px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px'
+                          }}>
+                            <span style={{ fontSize: '26px' }}>🔊</span>
+                            Звуковое окружение
+                          </h3>
+                          {isMediaLoading && !ambient.sound_path && !ambient.sound_error ? (
+                            <div style={{
+                              background: 'rgba(102, 126, 234, 0.1)',
+                              borderRadius: '20px',
+                              padding: '56px',
+                              textAlign: 'center',
+                              border: '1px solid rgba(102, 126, 234, 0.2)'
+                            }}>
+                              <div style={{
+                                display: 'inline-block',
+                                width: '56px',
+                                height: '56px',
+                                border: '4px solid rgba(102, 126, 234, 0.3)',
+                                borderTopColor: '#667eea',
+                                borderRadius: '50%',
+                                animation: 'spin 1s linear infinite',
+                                marginBottom: '20px'
+                              }} />
+                              <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: 0, fontWeight: '500', fontSize: '16px' }}>
+                                Генерируется звук...
+                              </p>
+                            </div>
+                          ) : ambient.sound_error ? (
+                            <div style={{
+                              background: 'rgba(239, 68, 68, 0.15)',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              borderRadius: '16px',
+                              padding: '20px',
+                              color: '#FCA5A5'
+                            }}>
+                              Ошибка: {ambient.sound_error}
+                            </div>
+                          ) : ambient.sound_path ? (
+                            <>
+                              {ambient.sound_prompt && (
+                                <p style={{
+                                  color: 'rgba(255, 255, 255, 0.7)',
+                                  fontSize: '17px',
+                                  marginBottom: '18px',
+                                  fontStyle: 'italic'
+                                }}>
+                                  {ambient.sound_prompt}
+                                </p>
+                              )}
+                              <audio
+                                ref={(el) => {
+                                  soundRefs.current[ambient.id] = el;
+                                }}
+                                src={getFullMediaUrl(ambient.sound_path) || ''}
+                                controls
+                                style={{
+                                  width: '100%',
+                                  borderRadius: '12px'
+                                }}
+                              />
+                            </>
+                          ) : null}
+                        </div>
+                      )}
+
+                      {/* Voice */}
+                      {ambient.voice && (
+                        <div>
+                          <h3 style={{
+                            color: '#FFFFFF',
+                            fontSize: '22px',
+                            fontWeight: '600',
+                            marginBottom: '18px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px'
+                          }}>
+                            <span style={{ fontSize: '26px' }}>🗣️</span>
+                            Голос из окружения
+                          </h3>
+                          <div style={{
+                            background: 'rgba(167, 139, 250, 0.15)',
+                            border: '1px solid rgba(167, 139, 250, 0.3)',
+                            borderRadius: '20px',
+                            padding: '28px',
+                            marginBottom: '24px'
+                          }}>
+                            <p style={{
+                              color: 'rgba(255, 255, 255, 0.9)',
+                              fontSize: '18px',
+                              fontStyle: 'italic',
+                              margin: 0,
+                              lineHeight: '1.7'
+                            }}>
+                              "{ambient.voice}"
+                            </p>
+                          </div>
+                          {isMediaLoading && !ambient.voice_path && !ambient.voice_error ? (
+                            <div style={{
+                              background: 'rgba(102, 126, 234, 0.1)',
+                              borderRadius: '20px',
+                              padding: '56px',
+                              textAlign: 'center',
+                              border: '1px solid rgba(102, 126, 234, 0.2)'
+                            }}>
+                              <div style={{
+                                display: 'inline-block',
+                                width: '56px',
+                                height: '56px',
+                                border: '4px solid rgba(102, 126, 234, 0.3)',
+                                borderTopColor: '#667eea',
+                                borderRadius: '50%',
+                                animation: 'spin 1s linear infinite',
+                                marginBottom: '20px'
+                              }} />
+                              <p style={{ color: 'rgba(255, 255, 255, 0.8)', margin: 0, fontWeight: '500', fontSize: '16px' }}>
+                                Генерируется голос...
+                              </p>
+                            </div>
+                          ) : ambient.voice_error ? (
+                            <div style={{
+                              background: 'rgba(239, 68, 68, 0.15)',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              borderRadius: '16px',
+                              padding: '20px',
+                              color: '#FCA5A5'
+                            }}>
+                              Ошибка: {ambient.voice_error}
+                            </div>
+                          ) : ambient.voice_path ? (
+                            <audio
+                              ref={(el) => {
+                                voiceRefs.current[ambient.id] = el;
+                              }}
+                              src={getFullMediaUrl(ambient.voice_path) || ''}
+                              controls
+                              style={{
+                                width: '100%',
+                                borderRadius: '12px'
+                              }}
+                            />
+                          ) : null}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right Navigation Button */}
+            <button
+              onClick={goToNext}
+              disabled={currentIndex === ambientsWithMedia.length - 1 || isAnimating}
+              style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '50%',
+                background: currentIndex === ambientsWithMedia.length - 1
+                  ? 'rgba(255, 255, 255, 0.05)'
+                  : 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: currentIndex === ambientsWithMedia.length - 1 ? 'rgba(255, 255, 255, 0.3)' : '#FFFFFF',
+                cursor: currentIndex === ambientsWithMedia.length - 1 ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                boxShadow: currentIndex === ambientsWithMedia.length - 1 ? 'none' : '0 4px 20px rgba(0, 0, 0, 0.3)',
+                flexShrink: 0,
+                opacity: currentIndex === ambientsWithMedia.length - 1 ? 0.4 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (currentIndex < ambientsWithMedia.length - 1 && !isAnimating) {
+                  e.currentTarget.style.background = 'rgba(102, 126, 234, 0.3)';
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(102, 126, 234, 0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+              }}
+            >
+              <ChevronRight size={32} strokeWidth={2.5} />
+            </button>
+          </div>
+        )}
+      </main>
+
+      {/* Progress Counter */}
+      {!showFinalChoice && (
+        <div style={{
+          textAlign: 'center',
+          padding: '20px',
+          position: 'relative',
+          zIndex: 100
+        }}>
+          <div style={{
+            display: 'inline-flex',
+            gap: '8px',
+            padding: '10px 20px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: '24px',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+            border: '1px solid rgba(255, 255, 255, 0.1)'
+          }}>
+            {ambientsWithMedia.map((_, index) => (
+              <div
+                key={index}
+                style={{
+                  width: index === currentIndex ? '28px' : '10px',
+                  height: '10px',
+                  borderRadius: '5px',
+                  background: index <= currentIndex 
+                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    : 'rgba(255, 255, 255, 0.2)',
+                  transition: 'all 0.4s ease',
+                  boxShadow: index === currentIndex ? '0 2px 8px rgba(102, 126, 234, 0.4)' : 'none'
+                }}
+              />
             ))}
           </div>
+          <p style={{
+            color: 'rgba(255, 255, 255, 0.6)',
+            fontSize: '14px',
+            marginTop: '14px',
+            marginBottom: 0,
+            fontWeight: '500'
+          }}>
+            {currentIndex + 1} из {ambientsWithMedia.length}
+          </p>
         </div>
-      </div>
+      )}
 
       <style>{`
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.5; }
         }
+        
         @keyframes spin {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
         }
       `}</style>
     </div>
