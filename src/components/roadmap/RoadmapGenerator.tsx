@@ -4,16 +4,12 @@ import { generateRoadmap } from '../../api/roadmap';
 import type { ProfessionRoadmap } from '../../types/roadmap';
 import { RoadmapOverviewComponent } from './RoadmapOverview';
 import { RoadmapTimeline } from './RoadmapTimeline';
-import { MilestonesView } from './MilestonesView';
-import { CertificationsView } from './CertificationsView';
-import { CareerPathsView } from './CareerPathsView';
 
 export function RoadmapGenerator() {
   const [professionTitle, setProfessionTitle] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [roadmap, setRoadmap] = useState<ProfessionRoadmap | null>(null);
-  const [activeView, setActiveView] = useState<'timeline' | 'milestones' | 'certifications' | 'paths'>('timeline');
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +37,6 @@ export function RoadmapGenerator() {
     setRoadmap(null);
     setProfessionTitle('');
     setError('');
-    setActiveView('timeline');
   };
 
   if (roadmap) {
@@ -99,128 +94,8 @@ export function RoadmapGenerator() {
           {/* Overview */}
           <RoadmapOverviewComponent overview={roadmap.overview} profession={roadmap.profession} />
 
-          {/* Navigation Tabs */}
-          <div style={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: '20px',
-            padding: '16px',
-            marginBottom: '24px',
-            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
-            display: 'flex',
-            gap: '12px',
-            flexWrap: 'wrap',
-          }}>
-            <button
-              onClick={() => setActiveView('timeline')}
-              style={{
-                backgroundColor: activeView === 'timeline' ? '#000000' : '#F3F4F6',
-                color: activeView === 'timeline' ? '#FFFFFF' : '#6B7280',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 24px',
-                fontSize: '15px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (activeView !== 'timeline') {
-                  e.currentTarget.style.backgroundColor = '#E5E7EB';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeView !== 'timeline') {
-                  e.currentTarget.style.backgroundColor = '#F3F4F6';
-                }
-              }}
-            >
-              📅 Timeline
-            </button>
-            <button
-              onClick={() => setActiveView('milestones')}
-              style={{
-                backgroundColor: activeView === 'milestones' ? '#000000' : '#F3F4F6',
-                color: activeView === 'milestones' ? '#FFFFFF' : '#6B7280',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 24px',
-                fontSize: '15px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (activeView !== 'milestones') {
-                  e.currentTarget.style.backgroundColor = '#E5E7EB';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeView !== 'milestones') {
-                  e.currentTarget.style.backgroundColor = '#F3F4F6';
-                }
-              }}
-            >
-              🏆 Вехи
-            </button>
-            <button
-              onClick={() => setActiveView('certifications')}
-              style={{
-                backgroundColor: activeView === 'certifications' ? '#000000' : '#F3F4F6',
-                color: activeView === 'certifications' ? '#FFFFFF' : '#6B7280',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 24px',
-                fontSize: '15px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (activeView !== 'certifications') {
-                  e.currentTarget.style.backgroundColor = '#E5E7EB';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeView !== 'certifications') {
-                  e.currentTarget.style.backgroundColor = '#F3F4F6';
-                }
-              }}
-            >
-              📜 Сертификации
-            </button>
-            <button
-              onClick={() => setActiveView('paths')}
-              style={{
-                backgroundColor: activeView === 'paths' ? '#000000' : '#F3F4F6',
-                color: activeView === 'paths' ? '#FFFFFF' : '#6B7280',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '12px 24px',
-                fontSize: '15px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                if (activeView !== 'paths') {
-                  e.currentTarget.style.backgroundColor = '#E5E7EB';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeView !== 'paths') {
-                  e.currentTarget.style.backgroundColor = '#F3F4F6';
-                }
-              }}
-            >
-              🚀 Карьерные пути
-            </button>
-          </div>
-
           {/* Content */}
-          {activeView === 'timeline' && <RoadmapTimeline stages={roadmap.stages} />}
-          {activeView === 'milestones' && <MilestonesView milestones={roadmap.milestones} />}
-          {activeView === 'certifications' && <CertificationsView certifications={roadmap.certifications} />}
-          {activeView === 'paths' && <CareerPathsView careerPaths={roadmap.careerPaths} />}
+          <RoadmapTimeline stages={roadmap.stages} />
         </div>
       </div>
     );

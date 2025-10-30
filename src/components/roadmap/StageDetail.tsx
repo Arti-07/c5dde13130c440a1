@@ -1,4 +1,5 @@
 import type { RoadmapStage } from '../../types/roadmap';
+import { InterviewQuestionsSection } from './InterviewQuestionsSection';
 
 interface Props {
   stage: RoadmapStage;
@@ -380,51 +381,8 @@ export function StageDetail({ stage }: Props) {
         </div>
       </section>
 
-      {/* Советы */}
-      <section style={{
-        backgroundColor: '#FEF3C7',
-        border: '2px solid #F59E0B',
-        padding: '20px',
-        borderRadius: '12px',
-      }}>
-        <h3 style={{
-          fontSize: '20px',
-          fontWeight: '600',
-          color: '#92400E',
-          marginBottom: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}>
-          💡 Персональные советы
-        </h3>
-        <ul style={{
-          margin: 0,
-          paddingLeft: '24px',
-          listStyle: 'none',
-        }}>
-          {stage.tips.map((tip, index) => (
-            <li
-              key={index}
-              style={{
-                fontSize: '15px',
-                color: '#78350F',
-                lineHeight: '1.8',
-                marginBottom: '8px',
-                position: 'relative',
-              }}
-            >
-              <span style={{
-                position: 'absolute',
-                left: '-24px',
-              }}>
-                💡
-              </span>
-              {tip}
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* Вопросы на собеседовании */}
+      <InterviewQuestionsSection questions={stage.interviewQuestions} />
     </div>
   );
 }

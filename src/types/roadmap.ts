@@ -35,6 +35,11 @@ export interface RoadmapResource {
   link?: string;
 }
 
+export interface InterviewQuestion {
+  question: string;
+  answer: string;
+}
+
 export interface RoadmapStage {
   id: string;
   level: SkillLevel;
@@ -46,39 +51,13 @@ export interface RoadmapStage {
   tools: RoadmapTool[];
   projects: RoadmapProject[];
   resources: RoadmapResource[];
-  tips: string[];
-}
-
-export interface RoadmapMilestone {
-  id: string;
-  title: string;
-  stage: string;
-  description: string;
-  criteria: string[];
-}
-
-export interface RoadmapCertification {
-  name: string;
-  provider: string;
-  stage: string;
-  description: string;
-  optional: boolean;
-}
-
-export interface RoadmapCareerPath {
-  title: string;
-  description: string;
-  fromStage: string;
-  skills: string[];
+  interviewQuestions: InterviewQuestion[];
 }
 
 export interface ProfessionRoadmap {
   profession: string;
   overview: RoadmapOverview;
   stages: RoadmapStage[];
-  milestones: RoadmapMilestone[];
-  certifications: RoadmapCertification[];
-  careerPaths: RoadmapCareerPath[];
 }
 
 export interface RoadmapGenerateRequest {

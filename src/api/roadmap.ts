@@ -39,7 +39,17 @@ export async function generateRoadmap(
     throw new Error(errorData.detail || 'Ошибка генерации roadmap');
   }
 
-  return response.json();
+  const data = await response.json();
+  
+  // Поддержка snake_case с бэка (если бэк отправляет interview_questions вместо interviewQuestions)
+  if (data.roadmap?.stages) {
+    data.roadmap.stages = data.roadmap.stages.map((stage: any) => ({
+      ...stage,
+      interviewQuestions: stage.interviewQuestions || stage.interview_questions || []
+    }));
+  }
+  
+  return data;
 }
 
 // Health check

@@ -15,17 +15,38 @@ export function RoadmapOverviewComponent({ overview, profession }: Props) {
       marginBottom: '24px',
       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
     }}>
-      <h1 style={{
-        fontSize: '32px',
-        fontWeight: '700',
-        color: '#1F2937',
-        marginBottom: '16px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
+      {/* Красивый заголовок с badge */}
+      <div style={{
+        textAlign: 'center',
+        marginBottom: '24px',
       }}>
-        🗺️ Career Roadmap: {profession}
-      </h1>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: '#FFFFFF',
+          padding: '8px 20px',
+          borderRadius: '20px',
+          fontSize: '14px',
+          fontWeight: '600',
+          marginBottom: '16px',
+        }}>
+          <span style={{ fontSize: '18px' }}>🎯</span>
+          <span>Roadmap для</span>
+        </div>
+        <h1 style={{
+          margin: 0,
+          fontSize: '36px',
+          fontWeight: '700',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}>
+          {profession}
+        </h1>
+      </div>
 
       <p style={{
         fontSize: '16px',
