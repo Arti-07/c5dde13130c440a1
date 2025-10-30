@@ -14,14 +14,13 @@
 .landing-features-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 150px;
   padding: 0 48px 60px 48px;
   background-color: transparent;
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
   z-index: 100;
-  justify-content: center;
 }
 
 .abstract-shape-left {
