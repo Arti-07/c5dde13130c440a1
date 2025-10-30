@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, Download } from 'lucide-react';
 import { generateRoadmap } from '../../api/roadmap';
 import type { ProfessionRoadmap } from '../../types/roadmap';
 import { RoadmapOverviewComponent } from './RoadmapOverview';
 import { RoadmapTimeline } from './RoadmapTimeline';
+import { exportRoadmapToPDF } from '../../utils/exportRoadmapToPDF';
 
 export function RoadmapGenerator() {
   const [professionTitle, setProfessionTitle] = useState('');
@@ -55,40 +56,80 @@ export function RoadmapGenerator() {
             marginBottom: '24px',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'space-between',
             gap: '16px',
           }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+            }}>
+              <button
+                onClick={handleBack}
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  border: '2px solid #E5E7EB',
+                  borderRadius: '12px',
+                  padding: '12px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#F3F4F6';
+                  e.currentTarget.style.borderColor = '#D1D5DB';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#FFFFFF';
+                  e.currentTarget.style.borderColor = '#E5E7EB';
+                }}
+              >
+                <ArrowLeft size={20} color="#1F2937" />
+              </button>
+              <h1 style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                color: '#1F2937',
+                margin: 0,
+              }}>
+                Career Roadmap
+              </h1>
+            </div>
+
+            {/* Кнопка экспорта в PDF */}
             <button
-              onClick={handleBack}
+              onClick={() => exportRoadmapToPDF(roadmap)}
               style={{
-                backgroundColor: '#FFFFFF',
-                border: '2px solid #E5E7EB',
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+                padding: '12px 24px',
                 borderRadius: '12px',
-                padding: '12px',
+                border: 'none',
+                fontSize: '15px',
+                fontWeight: '600',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                gap: '8px',
                 transition: 'all 0.2s ease',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#F3F4F6';
-                e.currentTarget.style.borderColor = '#D1D5DB';
+                e.currentTarget.style.backgroundColor = '#1F2937';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#FFFFFF';
-                e.currentTarget.style.borderColor = '#E5E7EB';
+                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
               }}
             >
-              <ArrowLeft size={20} color="#1F2937" />
+              <Download size={18} />
+              Скачать PDF
             </button>
-            <h1 style={{
-              fontSize: '24px',
-              fontWeight: '700',
-              color: '#1F2937',
-              margin: 0,
-            }}>
-              Career Roadmap
-            </h1>
           </div>
 
           {/* Overview */}
