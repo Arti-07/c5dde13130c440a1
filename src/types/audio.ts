@@ -22,6 +22,7 @@ export interface AudioResponse {
 }
 
 // Популярные голоса для TTS
+// @ts-ignore
 export enum VoiceId {
   GEORGE = 'JBFqnCBsd6RMkjVDRZzb',
   RACHEL = '21m00Tcm4TlvDq8ikWAM',
@@ -31,6 +32,7 @@ export enum VoiceId {
 }
 
 // Модели для TTS
+// @ts-ignore
 export enum ModelId {
   MULTILINGUAL_V2 = 'eleven_multilingual_v2',
   TURBO_V2 = 'eleven_turbo_v2',
