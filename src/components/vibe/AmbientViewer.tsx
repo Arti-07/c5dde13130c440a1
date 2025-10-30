@@ -200,12 +200,24 @@ export function AmbientViewer() {
 
   const handlePositiveVibe = () => {
     console.log('Positive vibe clicked!');
-    // TODO: Implement positive vibe logic
+    // Переход на страницу с детальной информацией
+    navigate('/vibe/profession-info', {
+      state: {
+        professionTitle: professionTitle,
+        professionDescription: textData?.profession_title
+      }
+    });
   };
 
   const handleNegativeVibe = () => {
     console.log('Negative vibe clicked!');
-    // TODO: Implement negative vibe logic
+    // Переход на страницу с детальной информацией
+    navigate('/vibe/profession-info', {
+      state: {
+        professionTitle: professionTitle,
+        professionDescription: textData?.profession_title
+      }
+    });
   };
 
   if (loading) {

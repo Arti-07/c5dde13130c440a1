@@ -938,6 +938,7 @@ export function VibeGenerator() {
                     </div>
                   ))}
                 </div>
+
               </div>
             </div>
           ))}
