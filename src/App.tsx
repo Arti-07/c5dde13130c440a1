@@ -15,6 +15,7 @@ import { LandingPage } from './components/home/LandingPage';
 import { VibeGenerator, ProfessionVibeAnalyzer, AmbientViewer } from './components/vibe';
 import { AudioTest } from './components/audio/AudioTest';
 import { ImageGenerator } from './components/image/ImageGenerator';
+import { RoadmapGenerator } from './components/roadmap';
 
 
 function App() {
@@ -159,6 +160,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ImageGenerator />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/roadmap"
+            element={
+              <ProtectedRoute>
+                <RoadmapGenerator />
               </ProtectedRoute>
             }
           />
