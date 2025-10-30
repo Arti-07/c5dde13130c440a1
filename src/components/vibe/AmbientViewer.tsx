@@ -53,13 +53,6 @@ export function AmbientViewer() {
     generateAmbients();
   }, [professionTitle, questionAnswers]);
 
-  // Check if we've reached the end
-  useEffect(() => {
-    if (currentIndex >= ambientsWithMedia.length && ambientsWithMedia.length > 0) {
-      setShowFinalChoice(true);
-    }
-  }, [currentIndex, ambientsWithMedia.length]);
-
   const generateAmbients = async () => {
     try {
       setLoading(true);
@@ -181,7 +174,14 @@ export function AmbientViewer() {
 
 
   const goToNext = () => {
-    if (isAnimating || currentIndex >= ambientsWithMedia.length - 1) return;
+    if (isAnimating) return;
+    
+    // If on the last card, show final choice
+    if (currentIndex === ambientsWithMedia.length - 1) {
+      setShowFinalChoice(true);
+      return;
+    }
+    
     setIsAnimating(true);
     setTimeout(() => {
       setCurrentIndex(prev => prev + 1);
@@ -451,64 +451,80 @@ export function AmbientViewer() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '40px',
-            padding: '80px 20px'
+            gap: '48px',
+            padding: '100px 20px',
+            minHeight: '70vh',
+            justifyContent: 'center'
           }}>
-            <div style={{ textAlign: 'center' }}>
-              <Sparkles size={64} color="#000000" style={{ marginBottom: '24px' }} />
+            <div style={{ textAlign: 'center', animation: 'fadeIn 0.6s ease-out' }}>
+              <div style={{
+                display: 'inline-block',
+                animation: 'pulse 2s ease-in-out infinite',
+                marginBottom: '32px'
+              }}>
+                <Sparkles size={72} color="#A78BFA" />
+              </div>
               <h2 style={{
-                fontSize: '36px',
+                fontSize: '42px',
                 fontWeight: '700',
-                color: '#000000',
-                marginBottom: '16px'
+                color: '#FFFFFF',
+                marginBottom: '20px',
+                letterSpacing: '0.02em'
               }}>
                 Все окружения просмотрены!
               </h2>
               <p style={{
-                fontSize: '18px',
-                color: '#6B7280',
-                maxWidth: '600px'
+                fontSize: '20px',
+                color: 'rgba(255, 255, 255, 0.7)',
+                maxWidth: '650px',
+                lineHeight: '1.6'
               }}>
-                Как тебе вайб этой профессии? Выбери свой ответ
+                Как тебе вайб этой профессии? Поделись своим впечатлением
               </p>
             </div>
 
             <div style={{
               display: 'flex',
-              gap: '32px',
-              justifyContent: 'center'
+              gap: '40px',
+              justifyContent: 'center',
+              flexWrap: 'wrap'
             }}>
               <button
                 onClick={handleNegativeVibe}
                 style={{
-                  padding: '24px 48px',
-                  backgroundColor: '#FFFFFF',
-                  border: '2px solid #EF4444',
-                  borderRadius: '16px',
+                  padding: '32px 56px',
+                  background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  border: '2px solid rgba(239, 68, 68, 0.4)',
+                  borderRadius: '24px',
                   cursor: 'pointer',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: '12px',
+                  gap: '16px',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                  minWidth: '220px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(239, 68, 68, 0.3)';
-                  e.currentTarget.style.backgroundColor = '#FEF2F2';
+                  e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(239, 68, 68, 0.4)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.25) 100%)';
+                  e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.6)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-                  e.currentTarget.style.backgroundColor = '#FFFFFF';
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%)';
+                  e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.4)';
                 }}
               >
-                <ThumbsDown size={48} color="#EF4444" />
+                <ThumbsDown size={56} color="#EF4444" strokeWidth={2} />
                 <span style={{
-                  fontSize: '20px',
-                  fontWeight: '600',
-                  color: '#EF4444'
+                  fontSize: '24px',
+                  fontWeight: '700',
+                  color: '#FCA5A5',
+                  letterSpacing: '0.02em'
                 }}>
                   Минус вайб
                 </span>
@@ -517,34 +533,39 @@ export function AmbientViewer() {
               <button
                 onClick={handlePositiveVibe}
                 style={{
-                  padding: '24px 48px',
-                  backgroundColor: '#FFFFFF',
-                  border: '2px solid #10B981',
-                  borderRadius: '16px',
+                  padding: '32px 56px',
+                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  border: '2px solid rgba(16, 185, 129, 0.4)',
+                  borderRadius: '24px',
                   cursor: 'pointer',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: '12px',
+                  gap: '16px',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                  minWidth: '220px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(16, 185, 129, 0.3)';
-                  e.currentTarget.style.backgroundColor = '#F0FDF4';
+                  e.currentTarget.style.transform = 'translateY(-6px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(16, 185, 129, 0.4)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.25) 100%)';
+                  e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.6)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-                  e.currentTarget.style.backgroundColor = '#FFFFFF';
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%)';
+                  e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.4)';
                 }}
               >
-                <ThumbsUp size={48} color="#10B981" />
+                <ThumbsUp size={56} color="#10B981" strokeWidth={2} />
                 <span style={{
-                  fontSize: '20px',
-                  fontWeight: '600',
-                  color: '#10B981'
+                  fontSize: '24px',
+                  fontWeight: '700',
+                  color: '#6EE7B7',
+                  letterSpacing: '0.02em'
                 }}>
                   Плюс вайб
                 </span>
@@ -694,18 +715,6 @@ export function AmbientViewer() {
                       {/* Image */}
                       {(ambient.image_prompt || ambient.image_path) && (
                         <div style={{ marginBottom: '36px' }}>
-                          <h3 style={{
-                            color: '#FFFFFF',
-                            fontSize: '22px',
-                            fontWeight: '600',
-                            marginBottom: '18px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px'
-                          }}>
-                            <span style={{ fontSize: '26px' }}>🖼️</span>
-                            Визуальное окружение
-                          </h3>
                           {isMediaLoading && !ambient.image_path && !ambient.image_error ? (
                             <div style={{
                               background: 'rgba(102, 126, 234, 0.1)',
@@ -756,18 +765,6 @@ export function AmbientViewer() {
                       {/* Sound */}
                       {(ambient.sound_prompt || ambient.sound_path) && (
                         <div style={{ marginBottom: '36px' }}>
-                          <h3 style={{
-                            color: '#FFFFFF',
-                            fontSize: '22px',
-                            fontWeight: '600',
-                            marginBottom: '18px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px'
-                          }}>
-                            <span style={{ fontSize: '26px' }}>🔊</span>
-                            Звуковое окружение
-                          </h3>
                           {isMediaLoading && !ambient.sound_path && !ambient.sound_error ? (
                             <div style={{
                               background: 'rgba(102, 126, 234, 0.1)',
@@ -801,17 +798,12 @@ export function AmbientViewer() {
                               Ошибка: {ambient.sound_error}
                             </div>
                           ) : ambient.sound_path ? (
-                            <>
-                              {ambient.sound_prompt && (
-                                <p style={{
-                                  color: 'rgba(255, 255, 255, 0.7)',
-                                  fontSize: '17px',
-                                  marginBottom: '18px',
-                                  fontStyle: 'italic'
-                                }}>
-                                  {ambient.sound_prompt}
-                                </p>
-                              )}
+                            <div style={{
+                              background: 'rgba(139, 92, 246, 0.1)',
+                              border: '1px solid rgba(139, 92, 246, 0.3)',
+                              borderRadius: '20px',
+                              padding: '24px'
+                            }}>
                               <audio
                                 ref={(el) => {
                                   soundRefs.current[ambient.id] = el;
@@ -820,10 +812,12 @@ export function AmbientViewer() {
                                 controls
                                 style={{
                                   width: '100%',
-                                  borderRadius: '12px'
+                                  height: '48px',
+                                  borderRadius: '12px',
+                                  outline: 'none'
                                 }}
                               />
-                            </>
+                            </div>
                           ) : null}
                         </div>
                       )}
@@ -831,18 +825,6 @@ export function AmbientViewer() {
                       {/* Voice */}
                       {ambient.voice && (
                         <div>
-                          <h3 style={{
-                            color: '#FFFFFF',
-                            fontSize: '22px',
-                            fontWeight: '600',
-                            marginBottom: '18px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px'
-                          }}>
-                            <span style={{ fontSize: '26px' }}>🗣️</span>
-                            Голос из окружения
-                          </h3>
                           <div style={{
                             background: 'rgba(167, 139, 250, 0.15)',
                             border: '1px solid rgba(167, 139, 250, 0.3)',
@@ -850,15 +832,23 @@ export function AmbientViewer() {
                             padding: '28px',
                             marginBottom: '24px'
                           }}>
-                            <p style={{
-                              color: 'rgba(255, 255, 255, 0.9)',
-                              fontSize: '18px',
-                              fontStyle: 'italic',
-                              margin: 0,
-                              lineHeight: '1.7'
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'flex-start',
+                              gap: '12px'
                             }}>
-                              "{ambient.voice}"
-                            </p>
+                              <span style={{ fontSize: '24px', flexShrink: 0 }}>🗣️</span>
+                              <p style={{
+                                color: 'rgba(255, 255, 255, 0.9)',
+                                fontSize: '18px',
+                                fontStyle: 'italic',
+                                margin: 0,
+                                lineHeight: '1.7',
+                                flex: 1
+                              }}>
+                                "{ambient.voice}"
+                              </p>
+                            </div>
                           </div>
                           {isMediaLoading && !ambient.voice_path && !ambient.voice_error ? (
                             <div style={{
@@ -893,17 +883,26 @@ export function AmbientViewer() {
                               Ошибка: {ambient.voice_error}
                             </div>
                           ) : ambient.voice_path ? (
-                            <audio
-                              ref={(el) => {
-                                voiceRefs.current[ambient.id] = el;
-                              }}
-                              src={getFullMediaUrl(ambient.voice_path) || ''}
-                              controls
-                              style={{
-                                width: '100%',
-                                borderRadius: '12px'
-                              }}
-                            />
+                            <div style={{
+                              background: 'rgba(167, 139, 250, 0.1)',
+                              border: '1px solid rgba(167, 139, 250, 0.3)',
+                              borderRadius: '20px',
+                              padding: '24px'
+                            }}>
+                              <audio
+                                ref={(el) => {
+                                  voiceRefs.current[ambient.id] = el;
+                                }}
+                                src={getFullMediaUrl(ambient.voice_path) || ''}
+                                controls
+                                style={{
+                                  width: '100%',
+                                  height: '48px',
+                                  borderRadius: '12px',
+                                  outline: 'none'
+                                }}
+                              />
+                            </div>
                           ) : null}
                         </div>
                       )}
@@ -916,28 +915,26 @@ export function AmbientViewer() {
             {/* Right Navigation Button */}
             <button
               onClick={goToNext}
-              disabled={currentIndex === ambientsWithMedia.length - 1 || isAnimating}
+              disabled={isAnimating}
               style={{
                 width: '56px',
                 height: '56px',
                 borderRadius: '50%',
-                background: currentIndex === ambientsWithMedia.length - 1
-                  ? 'rgba(255, 255, 255, 0.05)'
-                  : 'rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.1)',
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: currentIndex === ambientsWithMedia.length - 1 ? 'rgba(255, 255, 255, 0.3)' : '#FFFFFF',
-                cursor: currentIndex === ambientsWithMedia.length - 1 ? 'not-allowed' : 'pointer',
+                color: '#FFFFFF',
+                cursor: isAnimating ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 transition: 'all 0.3s ease',
-                boxShadow: currentIndex === ambientsWithMedia.length - 1 ? 'none' : '0 4px 20px rgba(0, 0, 0, 0.3)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
                 flexShrink: 0,
-                opacity: currentIndex === ambientsWithMedia.length - 1 ? 0.4 : 1
+                opacity: isAnimating ? 0.5 : 1
               }}
               onMouseEnter={(e) => {
-                if (currentIndex < ambientsWithMedia.length - 1 && !isAnimating) {
+                if (!isAnimating) {
                   e.currentTarget.style.background = 'rgba(102, 126, 234, 0.3)';
                   e.currentTarget.style.transform = 'scale(1.1)';
                   e.currentTarget.style.boxShadow = '0 6px 24px rgba(102, 126, 234, 0.4)';
