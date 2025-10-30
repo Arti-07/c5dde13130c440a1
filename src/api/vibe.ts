@@ -3,7 +3,9 @@
 import type { 
   VibeGenerateResponse,
   VibeQuestionsResponse,
-  ProfessionValidateResponse
+  ProfessionValidateResponse,
+  AmbientsGenerateRequest,
+  AmbientsGenerateResponse
 } from '../types/vibe';
 
 const BASE_URL = 'http://127.0.0.1:8000';
@@ -95,6 +97,40 @@ export async function validateProfession(professionTitle: string): Promise<Profe
       throw new Error(error.detail || 'Ошибка сервера при валидации профессии');
     }
     throw new Error('Ошибка при валидации профессии');
+  }
+
+  return response.json();
+}
+
+/**
+ * Генерация окружений (амбиентов) для выбранной профессии
+ */
+export async function generateProfessionAmbients(
+  professionTitle: string,
+  questionAnswers: AmbientsGenerateRequest['question_answers']
+): Promise<AmbientsGenerateResponse> {
+  const response = await fetch(`${BASE_URL}/vibe/ambients`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({
+      profession_title: professionTitle,
+      question_answers: questionAnswers
+    }),
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Необходима авторизация');
+    }
+    if (response.status === 400) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Ошибка генерации окружений');
+    }
+    if (response.status === 500) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Ошибка сервера при генерации окружений');
+    }
+    throw new Error('Ошибка при генерации окружений профессии');
   }
 
   return response.json();
