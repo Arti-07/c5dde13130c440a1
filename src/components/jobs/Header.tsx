@@ -20,16 +20,6 @@ export function Header() {
       alignItems: 'center',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-        <div style={{
-          backgroundColor: '#000000',
-          color: '#FFFFFF',
-          fontSize: '18px',
-          fontWeight: '600',
-          padding: '8px 16px',
-          borderRadius: '24px',
-        }}>
-          talentry
-        </div>
         
         <nav style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
          

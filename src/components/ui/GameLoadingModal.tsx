@@ -23,17 +23,13 @@ export function GameLoadingModal({
 
     useEffect(() => {
         const onKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                if (selectedGame) {
-                    setSelectedGame(null);
-                } else {
-                    onClose();
-                }
+            if (e.key === 'Escape' && selectedGame) {
+                setSelectedGame(null);
             }
         };
         if (open) window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
-    }, [open, onClose, selectedGame]);
+    }, [open, selectedGame]);
 
     useEffect(() => {
         if (!open) {
@@ -65,8 +61,6 @@ export function GameLoadingModal({
             onClick={() => {
                 if (selectedGame) {
                     setSelectedGame(null);
-                } else {
-                    onClose();
                 }
             }}
         >
@@ -83,40 +77,36 @@ export function GameLoadingModal({
                 }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <button
-                    onClick={() => {
-                        if (selectedGame) {
-                            setSelectedGame(null);
-                        } else {
-                            onClose();
-                        }
-                    }}
-                    style={{
-                        position: 'absolute',
-                        top: 12,
-                        right: 12,
-                        width: 36,
-                        height: 36,
-                        borderRadius: 10,
-                        border: '1px solid rgba(255,255,255,0.15)',
-                        background: 'rgba(255,255,255,0.06)',
-                        color: '#E9D5FF',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s',
-                        zIndex: 10
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-                    }}
-                >
-                    <X size={18}/>
-                </button>
+                {selectedGame && (
+                    <button
+                        onClick={() => setSelectedGame(null)}
+                        style={{
+                            position: 'absolute',
+                            top: 12,
+                            right: 12,
+                            width: 36,
+                            height: 36,
+                            borderRadius: 10,
+                            border: '1px solid rgba(255,255,255,0.15)',
+                            background: 'rgba(255,255,255,0.06)',
+                            color: '#E9D5FF',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            zIndex: 10
+                        }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+                        }}
+                    >
+                        <X size={18}/>
+                    </button>
+                )}
 
                 <div style={{padding: '18px 16px 8px 16px', textAlign: 'center'}}>
                     <h3 style={{

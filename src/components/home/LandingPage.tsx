@@ -104,26 +104,23 @@ export function LandingPage() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            gap: '12px',
             fontSize: '20px',
             fontWeight: '500',
             color: '#000000',
             textDecoration: 'none',
           }}
         >
-          <div style={{
-            width: '8px',
-            height: '8px',
-            backgroundColor: '#000000',
-            borderRadius: '50%',
-          }}></div>
-          <div style={{
-            width: '8px',
-            height: '8px',
-            backgroundColor: '#000000',
-            borderRadius: '50%',
-          }}></div>
-          <span style={{ marginLeft: '4px' }}>talentry</span>
+          <img 
+            src="/src/assets/Logo_smartini_crypto.png"
+            alt="SMARTini Logo"
+            style={{
+              width: '100px',
+              height: '100px',
+              borderRadius: '10px',
+              objectFit: 'cover',
+            }}
+          />
         </Link>
 
 

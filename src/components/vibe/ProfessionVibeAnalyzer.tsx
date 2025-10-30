@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Sparkles, CheckCircle2, Circle } from 'lucide-react';
 import { getProfessionQuestions } from '../../api/vibe';
 import type { ClarifyingQuestion, ProfessionCard } from '../../types/vibe';
+import { GameLoadingModal } from '../ui/GameLoadingModal';
 
 export function ProfessionVibeAnalyzer() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export function ProfessionVibeAnalyzer() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [customAnswers, setCustomAnswers] = useState<Record<string, string>>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [showGameModal, setShowGameModal] = useState(false);
 
   useEffect(() => {
     if (!profession) {
@@ -29,17 +31,20 @@ export function ProfessionVibeAnalyzer() {
     
     try {
       setLoading(true);
+      setShowGameModal(true);
       setError('');
       
       const response = await getProfessionQuestions(profession.title);
       setQuestions(response.questions);
       
       setLoading(false);
+      setShowGameModal(false);
     } catch (error) {
       console.error('Error loading questions:', error);
       const errorMessage = error instanceof Error ? error.message : 'Ошибка загрузки вопросов';
       setError(errorMessage);
       setLoading(false);
+      setShowGameModal(false);
     }
   };
 
@@ -122,33 +127,6 @@ export function ProfessionVibeAnalyzer() {
 
   if (!profession) {
     return null;
-  }
-
-  if (loading) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <Sparkles size={48} color="#667eea" style={{ 
-            animation: 'pulse 2s infinite',
-            marginBottom: '20px'
-          }} />
-          <h2 style={{ 
-            color: '#FFFFFF', 
-            fontSize: '24px',
-            fontWeight: '400'
-          }}>
-            Готовим вопросы...
-          </h2>
-        </div>
-      </div>
-    );
   }
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -553,6 +531,13 @@ export function ProfessionVibeAnalyzer() {
           color: rgba(255, 255, 255, 0.4);
         }
       `}</style>
+
+      <GameLoadingModal
+        open={showGameModal}
+        onClose={() => {}}
+        title="Готовим вопросы"
+        subtitle="Поиграй пока мы формируем персональные вопросы для тебя"
+      />
     </div>
   );
 }
