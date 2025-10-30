@@ -3,13 +3,16 @@
  * Полезно для тестирования и визуализации
  */
 
-import { Search, Heart, Star, Download } from 'lucide-react';
+import { Search, Heart, Star, Download, Gamepad2 } from 'lucide-react';
 import { Button } from './Button';
 import { Card } from './Card';
 import { Badge } from './Badge';
 import { Input } from './Input';
+import { useState } from 'react';
+import { GameLoadingModal } from './GameLoadingModal';
 
 export function UIShowcase() {
+  const [openGame, setOpenGame] = useState(false);
   return (
     <div style={{ 
       padding: '40px',
@@ -31,6 +34,18 @@ export function UIShowcase() {
         }}>
           Демонстрация всех переиспользуемых UI компонентов
         </p>
+
+        {/* Game Demo */}
+        <section style={{ marginBottom: '48px' }}>
+          <h2 style={{ fontSize: '24px', marginBottom: '24px', color: '#1F2937' }}>Мини-игра во время загрузки</h2>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <Button variant="primary" icon={<Gamepad2 size={18} />} onClick={() => setOpenGame(true)}>
+              Открыть игру
+            </Button>
+            <span style={{ color: '#6B7280', fontSize: 14 }}>Откройте модалку и прыгайте пробелом</span>
+          </div>
+          <GameLoadingModal open={openGame} onClose={() => setOpenGame(false)} title="Подождите, идёт загрузка" />
+        </section>
 
         {/* Buttons Section */}
         <section style={{ marginBottom: '48px' }}>
