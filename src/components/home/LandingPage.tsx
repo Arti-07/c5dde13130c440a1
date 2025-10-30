@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
   User,
-  Briefcase,
   Brain,
   Star,
   LogOut,
@@ -259,44 +258,6 @@ export function LandingPage() {
 
       {/* Features Grid */}
       <section className="landing-features-grid">
-        {/* Feature 2 - Image Card (Jobs) */}
-        <Link
-          to="/jobs"
-          style={{
-            backgroundColor: '#D4C4B0',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            minHeight: '280px',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textDecoration: 'none',
-            position: 'relative',
-          }}
-        >
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(135deg, rgba(31,41,55,0.8) 0%, rgba(107,114,128,0.6) 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            gap: '12px',
-          }}>
-            <Briefcase size={48} color="#FFFFFF" />
-            <span style={{
-              color: '#FFFFFF',
-              fontSize: '20px',
-              fontWeight: '600',
-            }}>
-              Вакансии по вайбу
-            </span>
-          </div>
-        </Link>
-
         {/* Feature 4 - Personality Card */}
         <div
           style={{

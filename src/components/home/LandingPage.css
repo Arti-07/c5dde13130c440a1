@@ -13,8 +13,8 @@
 
 .landing-features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 150px;
   padding: 0 48px 60px 48px;
   background-color: transparent;
   max-width: 1200px;
