@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, ArrowLeft, Search, Brain, Star, Zap, RefreshCw } from 'lucide-react';
 import { generateProfessionCards } from '../../api/vibe';
-import type { ProfessionCard } from '../../types/vibe';
+import type { ProfessionCard, ProfessionValidateResponse } from '../../types/vibe';
+import { ProfessionValidator } from './ProfessionValidator';
 
 const STORAGE_KEY = 'vibe_profession_cards';
 const STORAGE_META_KEY = 'vibe_profession_meta';
@@ -73,6 +74,8 @@ export function VibeGenerator() {
   const [isDropZoneActive, setIsDropZoneActive] = useState(false);
   const [selectedProfession, setSelectedProfession] = useState<ProfessionCard | null>(null);
   const [hasGeneratedCards, setHasGeneratedCards] = useState(false);
+  const [showValidator, setShowValidator] = useState(false);
+  const [professionToValidate, setProfessionToValidate] = useState<ProfessionCard | null>(null);
 
   useEffect(() => {
     loadUserData();
@@ -204,8 +207,29 @@ export function VibeGenerator() {
   const handleAnalyze = () => {
     if (!selectedProfession) return;
     
-    // Переход на страницу с вопросами и анализом
-    navigate('/vibe/analyze', { state: { profession: selectedProfession } });
+    // Открываем валидатор для проверки профессии
+    setProfessionToValidate(selectedProfession);
+    setShowValidator(true);
+  };
+
+  const handleValidationComplete = (isValid: boolean, validationData: ProfessionValidateResponse) => {
+    setShowValidator(false);
+    
+    // Если профессия валидна или редкая - продолжаем анализ
+    if (isValid || validationData.status === 'rare') {
+      if (professionToValidate) {
+        // Переход на страницу с вопросами и анализом
+        navigate('/vibe/analyze', { state: { profession: professionToValidate } });
+      }
+    }
+    
+    setProfessionToValidate(null);
+  };
+
+  const handleValidationCancel = () => {
+    setShowValidator(false);
+    setProfessionToValidate(null);
+    // Не сбрасываем selectedProfession, чтобы пользователь мог попробовать снова
   };
 
   const handleCustomSearch = (e: React.FormEvent) => {
@@ -969,6 +993,14 @@ export function VibeGenerator() {
           color: rgba(255, 255, 255, 0.5);
         }
       `}</style>
+
+      {showValidator && professionToValidate && (
+        <ProfessionValidator
+          professionTitle={professionToValidate.title}
+          onValidationComplete={handleValidationComplete}
+          onCancel={handleValidationCancel}
+        />
+      )}
     </div>
   );
 }

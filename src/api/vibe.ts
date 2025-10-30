@@ -1,10 +1,9 @@
 // API запросы для генератора вайба
 
 import type { 
-  ProfessionCard, 
   VibeGenerateResponse,
-  VibeQuestionsRequest,
-  VibeQuestionsResponse
+  VibeQuestionsResponse,
+  ProfessionValidateResponse
 } from '../types/vibe';
 
 const BASE_URL = 'http://127.0.0.1:8000';
@@ -68,6 +67,34 @@ export async function getProfessionQuestions(professionTitle: string): Promise<V
       throw new Error(error.detail || 'Ошибка сервера при получении вопросов');
     }
     throw new Error('Ошибка при получении вопросов');
+  }
+
+  return response.json();
+}
+
+/**
+ * Валидация профессии через API HH.ru
+ */
+export async function validateProfession(professionTitle: string): Promise<ProfessionValidateResponse> {
+  const response = await fetch(`${BASE_URL}/vibe/validate`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ profession_title: professionTitle }),
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Необходима авторизация');
+    }
+    if (response.status === 400) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Ошибка валидации профессии');
+    }
+    if (response.status === 500) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Ошибка сервера при валидации профессии');
+    }
+    throw new Error('Ошибка при валидации профессии');
   }
 
   return response.json();
