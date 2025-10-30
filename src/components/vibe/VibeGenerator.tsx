@@ -4,6 +4,7 @@ import { Sparkles, ArrowLeft, Search, Brain, Star, Zap, RefreshCw } from 'lucide
 import { generateProfessionCards } from '../../api/vibe';
 import type { ProfessionCard, ProfessionValidateResponse } from '../../types/vibe';
 import { ProfessionValidator } from './ProfessionValidator';
+import { GameLoadingModal } from '../ui/GameLoadingModal';
 
 const STORAGE_KEY = 'vibe_profession_cards';
 const STORAGE_META_KEY = 'vibe_profession_meta';
@@ -63,7 +64,6 @@ const loadProfessionsFromStorage = (): {
 
 export function VibeGenerator() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [regenerating, setRegenerating] = useState(false);
   const [error, setError] = useState('');
   const [customProfession, setCustomProfession] = useState('');
@@ -76,6 +76,7 @@ export function VibeGenerator() {
   const [hasGeneratedCards, setHasGeneratedCards] = useState(false);
   const [showValidator, setShowValidator] = useState(false);
   const [professionToValidate, setProfessionToValidate] = useState<ProfessionCard | null>(null);
+  const [showGameModal, setShowGameModal] = useState(false);
 
   useEffect(() => {
     loadUserData();
@@ -98,10 +99,12 @@ export function VibeGenerator() {
 
     // Если данных в localStorage нет — пробуем запросить с сервера
     try {
-      setLoading(true);
+      console.log('Starting to generate profession cards...');
+      setShowGameModal(true);
       setError('');
       
       const response = await generateProfessionCards();
+      console.log('Generated professions:', response);
       
       // Сортируем по matchScore в порядке убывания
       const sortedProfessions = [...response.professions].sort((a, b) => b.matchScore - a.matchScore);
@@ -117,7 +120,7 @@ export function VibeGenerator() {
         response.has_astrology_data
       );
       
-      setLoading(false);
+      setShowGameModal(false);
     } catch (error) {
       console.error('Error loading profession cards:', error);
       const errorMessage = error instanceof Error ? error.message : 'Ошибка загрузки карточек';
@@ -133,13 +136,14 @@ export function VibeGenerator() {
         setError(errorMessage);
       }
       
-      setLoading(false);
+      setShowGameModal(false);
     }
   };
 
   const handleRegenerate = async () => {
     try {
       setRegenerating(true);
+      setShowGameModal(true);
       setError('');
       
       const response = await generateProfessionCards();
@@ -160,6 +164,7 @@ export function VibeGenerator() {
       );
       
       setRegenerating(false);
+      setShowGameModal(false);
     } catch (error) {
       console.error('Error regenerating profession cards:', error);
       const errorMessage = error instanceof Error ? error.message : 'Ошибка перегенерации карточек';
@@ -171,6 +176,7 @@ export function VibeGenerator() {
       }
       
       setRegenerating(false);
+      setShowGameModal(false);
     }
   };
 
@@ -249,33 +255,6 @@ export function VibeGenerator() {
       setCustomProfession('');
     }
   };
-
-  if (loading) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <Sparkles size={48} color="#667eea" style={{ 
-            animation: 'pulse 2s infinite',
-            marginBottom: '20px'
-          }} />
-          <h2 style={{ 
-            color: '#FFFFFF', 
-            fontSize: '24px',
-            fontWeight: '400'
-          }}>
-            Анализируем твой вайб...
-          </h2>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div style={{
@@ -1001,6 +980,13 @@ export function VibeGenerator() {
           onCancel={handleValidationCancel}
         />
       )}
+
+      <GameLoadingModal
+        open={showGameModal}
+        onClose={() => {}}
+        title="Генерируем карточки профессий"
+        subtitle="Поиграй пока мы подбираем идеальные варианты для тебя"
+      />
     </div>
   );
 }

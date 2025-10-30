@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { CheckCircle2, XCircle, AlertTriangle, Loader, Info } from 'lucide-react';
 import { validateProfession } from '../../api/vibe';
 import type { ProfessionValidateResponse } from '../../types/vibe';
+import { GameLoadingModal } from '../ui/GameLoadingModal';
 
 interface ProfessionValidatorProps {
   professionTitle: string;
@@ -17,6 +18,7 @@ export function ProfessionValidator({
   const [loading, setLoading] = useState(true);
   const [validationResult, setValidationResult] = useState<ProfessionValidateResponse | null>(null);
   const [error, setError] = useState('');
+  const [showGameModal, setShowGameModal] = useState(false);
 
   useEffect(() => {
     performValidation();
@@ -25,16 +27,19 @@ export function ProfessionValidator({
   const performValidation = async () => {
     try {
       setLoading(true);
+      setShowGameModal(true);
       setError('');
       
       const result = await validateProfession(professionTitle);
       setValidationResult(result);
       setLoading(false);
+      setShowGameModal(false);
     } catch (error) {
       console.error('Validation error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Ошибка валидации';
       setError(errorMessage);
       setLoading(false);
+      setShowGameModal(false);
     }
   };
 
@@ -101,58 +106,34 @@ export function ProfessionValidator({
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'rgba(0, 0, 0, 0.8)',
-      backdropFilter: 'blur(8px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000,
-      padding: '20px',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-    }}>
-      <div style={{
-        maxWidth: '600px',
-        width: '100%',
-        background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%)',
-        borderRadius: '24px',
-        padding: '40px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 24px 80px rgba(0, 0, 0, 0.5)',
-        animation: 'modalSlideIn 0.3s ease-out',
-      }}>
-        {loading ? (
-          <div style={{ textAlign: 'center' }}>
-            <Loader 
-              size={48} 
-              color="#667eea" 
-              style={{ 
-                animation: 'spin 1s linear infinite',
-                marginBottom: '20px'
-              }} 
-            />
-            <h2 style={{
-              fontSize: '24px',
-              fontWeight: '600',
-              color: '#FFFFFF',
-              marginBottom: '12px',
-            }}>
-              Проверяем профессию...
-            </h2>
-            <p style={{
-              fontSize: '16px',
-              color: 'rgba(255, 255, 255, 0.7)',
-              margin: 0,
-            }}>
-              Анализируем рынок труда для профессии "{professionTitle}"
-            </p>
-          </div>
-        ) : error ? (
+    <>
+      {!loading && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.8)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px',
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+        }}>
+          <div style={{
+            maxWidth: '600px',
+            width: '100%',
+            background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%)',
+            borderRadius: '24px',
+            padding: '40px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 24px 80px rgba(0, 0, 0, 0.5)',
+            animation: 'modalSlideIn 0.3s ease-out',
+          }}>
+            {error ? (
           <div style={{ textAlign: 'center' }}>
             <XCircle size={48} color="#EF4444" style={{ marginBottom: '20px' }} />
             <h2 style={{
@@ -381,7 +362,9 @@ export function ProfessionValidator({
             </div>
           </div>
         ) : null}
-      </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         @keyframes modalSlideIn {
@@ -399,7 +382,14 @@ export function ProfessionValidator({
           to { transform: rotate(360deg); }
         }
       `}</style>
-    </div>
+
+      <GameLoadingModal
+        open={showGameModal}
+        onClose={() => {}}
+        title="Проверяем профессию"
+        subtitle={`Анализируем рынок труда для "${professionTitle}"`}
+      />
+    </>
   );
 }
 
