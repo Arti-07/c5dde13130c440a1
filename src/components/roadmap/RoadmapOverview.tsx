@@ -1,4 +1,4 @@
-import { Sparkles, Star, Brain } from 'lucide-react';
+import { Sparkles, Star } from 'lucide-react';
 import type { RoadmapOverview } from '../../types/roadmap';
 
 interface Props {
@@ -42,24 +42,10 @@ export function RoadmapOverviewComponent({ overview, profession }: Props) {
         fontSize: '16px',
         color: 'rgba(255, 255, 255, 0.8)',
         lineHeight: '1.6',
-        marginBottom: '16px',
+        marginBottom: '24px',
       }}>
         {overview.description}
       </p>
-
-      <div style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '8px',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
-        padding: '8px 16px',
-        borderRadius: '12px',
-        marginBottom: '24px',
-      }}>
-        <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}>Общая длительность:</span>
-        <strong style={{ fontSize: '14px', color: '#FFFFFF' }}>{overview.totalDuration}</strong>
-      </div>
 
       <div style={{ marginBottom: '24px' }}>
         <h3 style={{
@@ -93,54 +79,6 @@ export function RoadmapOverviewComponent({ overview, profession }: Props) {
           ))}
         </div>
       </div>
-
-      {overview.personalityInsight && (
-        <div style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          padding: '20px',
-          borderRadius: '16px',
-          marginBottom: '16px',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            position: 'absolute',
-            right: '20px',
-            top: '20px',
-            opacity: 0.2,
-          }}>
-            <Brain size={48} color="#FFFFFF" />
-          </div>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            marginBottom: '8px',
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            <Brain size={20} color="#FFFFFF" />
-            <h4 style={{
-              fontSize: '16px',
-              fontWeight: '600',
-              color: '#FFFFFF',
-              margin: 0,
-            }}>
-              💡 Личностный инсайт
-            </h4>
-          </div>
-          <p style={{
-            fontSize: '14px',
-            color: 'rgba(255, 255, 255, 0.95)',
-            lineHeight: '1.6',
-            margin: 0,
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            {overview.personalityInsight}
-          </p>
-        </div>
-      )}
 
       {overview.astrologyInsight && (
         <div style={{
