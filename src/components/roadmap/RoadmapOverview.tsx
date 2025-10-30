@@ -9,40 +9,30 @@ interface Props {
 export function RoadmapOverviewComponent({ overview, profession }: Props) {
   return (
     <div style={{
-      backgroundColor: '#FFFFFF',
+      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
       borderRadius: '20px',
       padding: '32px',
       marginBottom: '24px',
-      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
     }}>
-      {/* Красивый заголовок с badge */}
+      {/* Красивый заголовок */}
       <div style={{
         textAlign: 'center',
         marginBottom: '24px',
       }}>
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: '#FFFFFF',
-          padding: '8px 20px',
-          borderRadius: '20px',
-          fontSize: '14px',
-          fontWeight: '600',
-          marginBottom: '16px',
-        }}>
-          <span style={{ fontSize: '18px' }}>🎯</span>
-          <span>Roadmap для</span>
-        </div>
         <h1 style={{
           margin: 0,
           fontSize: '36px',
           fontWeight: '700',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
+          color: '#FFFFFF',
+          textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+          borderBottom: '3px solid',
+          borderImage: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          borderImageSlice: 1,
+          paddingBottom: '12px',
+          display: 'inline-block',
         }}>
           {profession}
         </h1>
@@ -50,7 +40,7 @@ export function RoadmapOverviewComponent({ overview, profession }: Props) {
 
       <p style={{
         fontSize: '16px',
-        color: '#6B7280',
+        color: 'rgba(255, 255, 255, 0.8)',
         lineHeight: '1.6',
         marginBottom: '16px',
       }}>
@@ -61,26 +51,24 @@ export function RoadmapOverviewComponent({ overview, profession }: Props) {
         display: 'inline-flex',
         alignItems: 'center',
         gap: '8px',
-        backgroundColor: '#F3F4F6',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
         padding: '8px 16px',
         borderRadius: '12px',
         marginBottom: '24px',
       }}>
-        <span style={{ fontSize: '14px', color: '#6B7280' }}>⏱️ Общая длительность:</span>
-        <strong style={{ fontSize: '14px', color: '#1F2937' }}>{overview.totalDuration}</strong>
+        <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}>Общая длительность:</span>
+        <strong style={{ fontSize: '14px', color: '#FFFFFF' }}>{overview.totalDuration}</strong>
       </div>
 
       <div style={{ marginBottom: '24px' }}>
         <h3 style={{
           fontSize: '18px',
           fontWeight: '600',
-          color: '#1F2937',
+          color: '#FFFFFF',
           marginBottom: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
         }}>
-          🔑 Ключевые навыки
+          Ключевые навыки
         </h3>
         <div style={{
           display: 'flex',
@@ -91,11 +79,12 @@ export function RoadmapOverviewComponent({ overview, profession }: Props) {
             <span
               key={index}
               style={{
-                backgroundColor: '#000000',
+                background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)',
                 color: '#FFFFFF',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                fontSize: '14px',
+                border: '1px solid rgba(102, 126, 234, 0.3)',
+                padding: '6px 14px',
+                borderRadius: '20px',
+                fontSize: '13px',
                 fontWeight: '500',
               }}
             >

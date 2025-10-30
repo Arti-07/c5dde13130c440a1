@@ -21,11 +21,13 @@ export function RoadmapTimeline({ stages }: Props) {
     <div style={{ marginBottom: '24px' }}>
       {/* Timeline Navigation */}
       <div style={{
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
         borderRadius: '20px',
         padding: '24px',
         marginBottom: '24px',
-        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
         overflowX: 'auto',
       }}>
         <div style={{
@@ -38,9 +40,9 @@ export function RoadmapTimeline({ stages }: Props) {
               key={stage.id}
               onClick={() => setActiveStage(index)}
               style={{
-                backgroundColor: activeStage === index ? stageColors[stage.level] : '#F3F4F6',
-                color: activeStage === index ? '#FFFFFF' : '#6B7280',
-                border: 'none',
+                backgroundColor: activeStage === index ? stageColors[stage.level] : 'rgba(255, 255, 255, 0.1)',
+                color: '#FFFFFF',
+                border: activeStage === index ? 'none' : '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '16px',
                 padding: '20px 24px',
                 cursor: 'pointer',
@@ -52,16 +54,16 @@ export function RoadmapTimeline({ stages }: Props) {
                 minWidth: '160px',
                 position: 'relative',
                 transform: activeStage === index ? 'translateY(-4px)' : 'translateY(0)',
-                boxShadow: activeStage === index ? `0 8px 24px ${stageColors[stage.level]}40` : 'none',
+                boxShadow: activeStage === index ? `0 8px 24px ${stageColors[stage.level]}60` : 'none',
               }}
               onMouseEnter={(e) => {
                 if (activeStage !== index) {
-                  e.currentTarget.style.backgroundColor = '#E5E7EB';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (activeStage !== index) {
-                  e.currentTarget.style.backgroundColor = '#F3F4F6';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
                 }
               }}
             >

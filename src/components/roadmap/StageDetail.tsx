@@ -8,23 +8,25 @@ interface Props {
 export function StageDetail({ stage }: Props) {
   return (
     <div style={{
-      backgroundColor: '#FFFFFF',
+      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
       borderRadius: '20px',
       padding: '32px',
-      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
     }}>
       <div style={{ marginBottom: '24px' }}>
         <h2 style={{
           fontSize: '28px',
           fontWeight: '700',
-          color: '#1F2937',
+          color: '#FFFFFF',
           marginBottom: '8px',
         }}>
           {stage.title}
         </h2>
         <p style={{
           fontSize: '16px',
-          color: '#6B7280',
+          color: 'rgba(255, 255, 255, 0.8)',
           lineHeight: '1.6',
         }}>
           {stage.description}
@@ -32,253 +34,261 @@ export function StageDetail({ stage }: Props) {
       </div>
 
       {/* Цели */}
-      <section style={{ marginBottom: '32px' }}>
-        <h3 style={{
-          fontSize: '20px',
-          fontWeight: '600',
-          color: '#1F2937',
-          marginBottom: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}>
-          🎯 Цели этапа
-        </h3>
-        <ul style={{
-          margin: 0,
-          paddingLeft: '24px',
-          listStyle: 'none',
-        }}>
-          {stage.goals.map((goal, index) => (
-            <li
-              key={index}
-              style={{
-                fontSize: '15px',
-                color: '#4B5563',
-                lineHeight: '1.8',
-                marginBottom: '8px',
-                position: 'relative',
-              }}
-            >
-              <span style={{
-                position: 'absolute',
-                left: '-24px',
-                color: '#10B981',
-              }}>
-                ✓
-              </span>
-              {goal}
-            </li>
-          ))}
-        </ul>
-      </section>
+      {stage.goals.length > 0 && (
+        <section style={{ marginBottom: '24px' }}>
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            color: '#FFFFFF',
+            marginBottom: '16px',
+          }}>
+            Цели
+          </h3>
+          <ul style={{
+            listStyle: 'none',
+            padding: 0,
+            margin: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '12px',
+          }}>
+            {stage.goals.map((goal, index) => (
+              <li
+                key={index}
+                style={{
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  padding: '12px 16px',
+                  borderRadius: '10px',
+                  fontSize: '15px',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <span style={{ color: '#10B981', fontWeight: 'bold' }}>✓</span> {goal}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Навыки */}
-      <section style={{ marginBottom: '32px' }}>
-        <h3 style={{
-          fontSize: '20px',
-          fontWeight: '600',
-          color: '#1F2937',
-          marginBottom: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}>
-          🔧 Навыки для изучения
-        </h3>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '16px',
-        }}>
-          {stage.skills.map((skill, index) => (
-            <div
-              key={index}
-              style={{
-                backgroundColor: skill.importance === 'high' ? '#FEF3C7' : skill.importance === 'medium' ? '#DBEAFE' : '#F3F4F6',
-                border: `2px solid ${skill.importance === 'high' ? '#F59E0B' : skill.importance === 'medium' ? '#3B82F6' : '#D1D5DB'}`,
-                padding: '16px',
-                borderRadius: '12px',
-                position: 'relative',
-              }}
-            >
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                marginBottom: '8px',
-              }}>
+      {stage.skills.length > 0 && (
+        <section style={{ marginBottom: '24px' }}>
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            color: '#FFFFFF',
+            marginBottom: '16px',
+          }}>
+            Навыки
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '16px',
+          }}>
+            {stage.skills.map((skill, index) => (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#6366F1';
+                  e.currentTarget.style.backgroundColor = 'rgba(99, 102, 241, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+                }}
+              >
                 <h4 style={{
                   fontSize: '16px',
                   fontWeight: '600',
-                  color: '#1F2937',
-                  margin: 0,
+                  color: '#FFFFFF',
+                  marginBottom: '8px',
                 }}>
                   {skill.name}
                 </h4>
-                <span style={{
-                  backgroundColor: skill.importance === 'high' ? '#F59E0B' : skill.importance === 'medium' ? '#3B82F6' : '#9CA3AF',
-                  color: '#FFFFFF',
-                  padding: '4px 8px',
-                  borderRadius: '6px',
-                  fontSize: '11px',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
+                <p style={{
+                  fontSize: '14px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.5',
                 }}>
-                  {skill.importance}
+                  {skill.description}
+                </p>
+                <span style={{
+                  display: 'inline-block',
+                  backgroundColor: skill.importance === 'high' ? 'rgba(220, 38, 38, 0.2)' : skill.importance === 'medium' ? 'rgba(217, 119, 6, 0.2)' : 'rgba(79, 70, 229, 0.2)',
+                  color: skill.importance === 'high' ? '#FCA5A5' : skill.importance === 'medium' ? '#FCD34D' : '#A5B4FC',
+                  border: `1px solid ${skill.importance === 'high' ? '#DC2626' : skill.importance === 'medium' ? '#D97706' : '#4F46E5'}`,
+                  padding: '4px 10px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                }}>
+                  {skill.importance === 'high' ? 'Высокая' : skill.importance === 'medium' ? 'Средняя' : 'Низкая'}
                 </span>
               </div>
-              <p style={{
-                fontSize: '14px',
-                color: '#6B7280',
-                lineHeight: '1.5',
-                margin: 0,
-              }}>
-                {skill.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Инструменты */}
-      <section style={{ marginBottom: '32px' }}>
-        <h3 style={{
-          fontSize: '20px',
-          fontWeight: '600',
-          color: '#1F2937',
-          marginBottom: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}>
-          🛠️ Инструменты и технологии
-        </h3>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
-        }}>
-          {stage.tools.map((tool, index) => (
-            <div
-              key={index}
-              style={{
-                backgroundColor: '#F9FAFB',
-                padding: '16px',
-                borderRadius: '12px',
-                border: '1px solid #E5E7EB',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-              }}
-            >
-              <span style={{
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                padding: '6px 12px',
-                borderRadius: '8px',
-                fontSize: '12px',
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                whiteSpace: 'nowrap',
-              }}>
-                {tool.category}
-              </span>
-              <div style={{ flex: 1 }}>
+      {stage.tools.length > 0 && (
+        <section style={{ marginBottom: '24px' }}>
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            color: '#FFFFFF',
+            marginBottom: '16px',
+          }}>
+            Инструменты и технологии
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '16px',
+          }}>
+            {stage.tools.map((tool, index) => (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#F59E0B';
+                  e.currentTarget.style.backgroundColor = 'rgba(245, 158, 11, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+                }}
+              >
                 <h4 style={{
-                  fontSize: '15px',
+                  fontSize: '16px',
                   fontWeight: '600',
-                  color: '#1F2937',
-                  margin: '0 0 4px 0',
+                  color: '#FFFFFF',
+                  marginBottom: '8px',
                 }}>
                   {tool.name}
                 </h4>
                 <p style={{
                   fontSize: '14px',
-                  color: '#6B7280',
-                  margin: 0,
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.5',
                 }}>
                   {tool.description}
                 </p>
+                <span style={{
+                  display: 'inline-block',
+                  backgroundColor: 'rgba(251, 191, 36, 0.2)',
+                  color: '#FCD34D',
+                  border: '1px solid #D97706',
+                  padding: '4px 10px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                }}>
+                  {tool.category}
+                </span>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Проекты */}
-      <section style={{ marginBottom: '32px' }}>
-        <h3 style={{
-          fontSize: '20px',
-          fontWeight: '600',
-          color: '#1F2937',
-          marginBottom: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-        }}>
-          💻 Проекты для практики
-        </h3>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-          gap: '16px',
-        }}>
-          {stage.projects.map((project, index) => (
-            <div
-              key={index}
-              style={{
-                backgroundColor: '#F0FDF4',
-                border: '2px solid #10B981',
-                padding: '20px',
-                borderRadius: '12px',
-              }}
-            >
-              <h4 style={{
-                fontSize: '17px',
-                fontWeight: '600',
-                color: '#1F2937',
-                marginBottom: '8px',
-              }}>
-                {project.title}
-              </h4>
-              <p style={{
-                fontSize: '14px',
-                color: '#6B7280',
-                lineHeight: '1.5',
-                marginBottom: '12px',
-              }}>
-                {project.description}
-              </p>
-              <div style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '6px',
-              }}>
-                {project.skills.map((skill, i) => (
-                  <span
-                    key={i}
-                    style={{
-                      backgroundColor: '#10B981',
-                      color: '#FFFFFF',
-                      padding: '4px 10px',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      fontWeight: '500',
-                    }}
-                  >
-                    {skill}
-                  </span>
-                ))}
+      {stage.projects.length > 0 && (
+        <section style={{ marginBottom: '24px' }}>
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            color: '#FFFFFF',
+            marginBottom: '16px',
+          }}>
+            Проекты для практики
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+            gap: '16px',
+          }}>
+            {stage.projects.map((project, index) => (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                  border: '1px solid rgba(59, 130, 246, 0.3)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#3B82F6';
+                  e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
+                  e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.1)';
+                }}
+              >
+                <h4 style={{
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  color: '#FFFFFF',
+                  marginBottom: '8px',
+                }}>
+                  {project.title}
+                </h4>
+                <p style={{
+                  fontSize: '14px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.5',
+                }}>
+                  {project.description}
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {project.skills.map((skill, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        backgroundColor: 'rgba(96, 165, 250, 0.2)',
+                        color: '#93C5FD',
+                        border: '1px solid #3B82F6',
+                        padding: '4px 10px',
+                        borderRadius: '20px',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                      }}
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Вопросы на собеседовании */}
       <InterviewQuestionsSection questions={stage.interviewQuestions} />
     </div>
   );
 }
-
