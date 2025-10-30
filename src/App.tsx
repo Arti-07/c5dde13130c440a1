@@ -12,7 +12,7 @@ import { JobSearchDashboard } from './components/jobs/JobSearchDashboard';
 import { JobSearchPreview } from './components/jobs/JobSearchPreview';
 import { UIShowcase } from './components/ui/UIShowcase';
 import { LandingPage } from './components/home/LandingPage';
-import { VibeGenerator } from './components/vibe/VibeGenerator';
+import { VibeGenerator, ProfessionVibeAnalyzer } from './components/vibe';
 import { AudioTest } from './components/audio/AudioTest';
 
 
@@ -70,6 +70,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <VibeGenerator />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/vibe/analyze"
+            element={
+              <ProtectedRoute>
+                <ProfessionVibeAnalyzer />
               </ProtectedRoute>
             }
           />
