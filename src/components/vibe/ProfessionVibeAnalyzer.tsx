@@ -13,6 +13,7 @@ export function ProfessionVibeAnalyzer() {
   const [error, setError] = useState('');
   const [questions, setQuestions] = useState<ClarifyingQuestion[]>([]);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [customAnswers, setCustomAnswers] = useState<Record<string, string>>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   useEffect(() => {
@@ -47,6 +48,27 @@ export function ProfessionVibeAnalyzer() {
       ...prev,
       [questionId]: optionId
     }));
+    // Сбрасываем кастомный ответ при выборе варианта
+    setCustomAnswers(prev => {
+      const updated = { ...prev };
+      delete updated[questionId];
+      return updated;
+    });
+  };
+
+  const handleCustomAnswerChange = (questionId: string, value: string) => {
+    setCustomAnswers(prev => ({
+      ...prev,
+      [questionId]: value
+    }));
+    // Сбрасываем выбранный вариант при вводе кастомного ответа
+    if (value.trim()) {
+      setAnswers(prev => {
+        const updated = { ...prev };
+        delete updated[questionId];
+        return updated;
+      });
+    }
   };
 
   const handleNext = () => {
@@ -62,20 +84,40 @@ export function ProfessionVibeAnalyzer() {
   };
 
   const handleSubmit = () => {
+    // Собираем все ответы (обычные и кастомные)
+    const allAnswers = questions.map((q, index) => ({
+      questionId: q.id,
+      questionNumber: index + 1,
+      question: q.question,
+      answer: answers[q.id] 
+        ? q.options.find(opt => opt.id === answers[q.id])?.text 
+        : customAnswers[q.id]
+    }));
+    
+    // Формируем текст для отображения
+    const answersText = allAnswers
+      .map(a => `${a.questionNumber}. ${a.question}\n   → ${a.answer}`)
+      .join('\n\n');
+    
     // TODO: Отправить ответы на бэк для финального анализа
-    console.log('Submitting answers:', answers);
+    console.log('Submitting answers:', allAnswers);
     console.log('Profession:', profession?.title);
-    alert('Анализ завершен! (TODO: реализовать финальный анализ)');
+    
+    alert(
+      `Твои ответы:\n\n${answersText}\n\n` +
+      `Профессия: ${profession?.title}\n\n` +
+      `TODO: Реализовать финальный анализ`
+    );
   };
 
   const isCurrentQuestionAnswered = () => {
     if (questions.length === 0) return false;
     const currentQuestion = questions[currentQuestionIndex];
-    return !!answers[currentQuestion.id];
+    return !!answers[currentQuestion.id] || !!customAnswers[currentQuestion.id]?.trim();
   };
 
   const allQuestionsAnswered = () => {
-    return questions.every(q => !!answers[q.id]);
+    return questions.every(q => !!answers[q.id] || !!customAnswers[q.id]?.trim());
   };
 
   if (!profession) {
@@ -322,6 +364,68 @@ export function ProfessionVibeAnalyzer() {
                     </button>
                   );
                 })}
+
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  margin: '16px 0 8px 0',
+                }}>
+                  <div style={{
+                    flex: 1,
+                    height: '1px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                  }} />
+                  <span style={{
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}>
+                    или введи свой ответ
+                  </span>
+                  <div style={{
+                    flex: 1,
+                    height: '1px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                  }} />
+                </div>
+
+                <input
+                  type="text"
+                  value={customAnswers[currentQuestion.id] || ''}
+                  onChange={(e) => handleCustomAnswerChange(currentQuestion.id, e.target.value)}
+                  placeholder="Напиши свой вариант..."
+                  style={{
+                    padding: '20px 24px',
+                    background: customAnswers[currentQuestion.id]?.trim()
+                      ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)'
+                      : 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    borderRadius: '16px',
+                    border: customAnswers[currentQuestion.id]?.trim()
+                      ? '2px solid rgba(102, 126, 234, 0.5)'
+                      : '2px solid rgba(255, 255, 255, 0.1)',
+                    color: '#FFFFFF',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    outline: 'none',
+                    transition: 'all 0.3s ease',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                  }}
+                  onFocus={(e) => {
+                    if (!customAnswers[currentQuestion.id]?.trim()) {
+                      e.currentTarget.style.borderColor = 'rgba(102, 126, 234, 0.4)';
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                    }
+                  }}
+                  onBlur={(e) => {
+                    if (!customAnswers[currentQuestion.id]?.trim()) {
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                    }
+                  }}
+                />
               </div>
             </div>
 
@@ -443,6 +547,10 @@ export function ProfessionVibeAnalyzer() {
         @keyframes pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        
+        input::placeholder {
+          color: rgba(255, 255, 255, 0.4);
         }
       `}</style>
     </div>

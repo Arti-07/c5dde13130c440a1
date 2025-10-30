@@ -23,6 +23,7 @@ export interface QuestionOption {
 export interface ClarifyingQuestion {
   id: string;
   question: string;
+  allow_custom_answer: boolean;
   options: QuestionOption[];
 }
 
