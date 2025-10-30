@@ -242,11 +242,10 @@ export const ProfessionInfo = () => {
         {/* Navigation Pills */}
         <div style={{
           display: 'flex',
+          flexWrap: 'wrap',
           gap: '12px',
           marginBottom: '32px',
-          overflowX: 'auto',
-          paddingBottom: '8px',
-          scrollbarWidth: 'none',
+          justifyContent: 'center',
         }}>
           {professionData.cards.map((card, index) => (
             <button
@@ -290,7 +289,6 @@ export const ProfessionInfo = () => {
                 }
               }}
             >
-              <span style={{ fontSize: '20px' }}>{card.icon}</span>
               <span>{card.title}</span>
             </button>
           ))}
@@ -329,19 +327,19 @@ export const ProfessionInfo = () => {
 
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '16px',
                   marginBottom: '32px',
                   paddingBottom: '24px',
-                  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderBottom: '2px solid rgba(102, 126, 234, 0.3)',
                 }}>
-                  <span style={{ fontSize: '48px' }}>{professionData.cards[activeCard].icon}</span>
                   <h2 style={{
                     fontSize: '32px',
                     fontWeight: '700',
                     color: '#FFFFFF',
                     margin: 0,
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
                   }}>
                     {professionData.cards[activeCard].title}
                   </h2>
@@ -462,40 +460,73 @@ export const ProfessionInfo = () => {
 // Card Components
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DailyScheduleCard = ({ content }: { content: any }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+  <div style={{ 
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: '20px' 
+  }}>
     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
     {content.schedule?.map((item: any, index: number) => (
       <div key={index} style={{
-        display: 'flex',
-        gap: '16px',
-        alignItems: 'flex-start',
-        padding: '20px',
-        background: 'rgba(255, 255, 255, 0.03)',
+        position: 'relative',
+        padding: '24px',
+        background: 'linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%)',
         backdropFilter: 'blur(10px)',
-        borderRadius: '16px',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: '20px',
+        border: '1px solid rgba(167, 139, 250, 0.2)',
         transition: 'all 0.3s ease',
-        cursor: 'default',
+        cursor: 'pointer',
+        overflow: 'hidden',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-        e.currentTarget.style.transform = 'translateY(-2px)';
-        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.3)';
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(167, 139, 250, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%)';
+        e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
+        e.currentTarget.style.boxShadow = '0 12px 32px rgba(167, 139, 250, 0.3)';
+        e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.4)';
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
-        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%)';
+        e.currentTarget.style.transform = 'translateY(0) scale(1)';
         e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.2)';
       }}
       >
-        <span style={{ fontSize: '32px' }}>{item.icon}</span>
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          width: '60px',
+          height: '60px',
+          background: 'radial-gradient(circle, rgba(167, 139, 250, 0.2) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(20px)',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: '8px', 
+            marginBottom: '12px',
+            padding: '6px 12px',
+            background: 'rgba(167, 139, 250, 0.2)',
+            borderRadius: '8px',
+            border: '1px solid rgba(167, 139, 250, 0.3)',
+          }}>
             <Clock size={16} color="#A78BFA" />
-            <span style={{ color: '#A78BFA', fontWeight: '600', fontSize: '14px' }}>{item.time}</span>
+            <span style={{ color: '#C4B5FD', fontWeight: '700', fontSize: '14px' }}>{item.time}</span>
           </div>
-          <h3 style={{ fontWeight: '600', fontSize: '18px', marginBottom: '4px', color: '#FFFFFF' }}>{item.activity}</h3>
-          {item.description && <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '14px' }}>{item.description}</p>}
+          <h3 style={{ 
+            fontWeight: '700', 
+            fontSize: '19px', 
+            marginBottom: '8px', 
+            color: '#E9D5FF',
+            lineHeight: '1.3'
+          }}>{item.activity}</h3>
+          {item.description && <p style={{ 
+            color: 'rgba(255, 255, 255, 0.7)', 
+            fontSize: '14px',
+            lineHeight: '1.6'
+          }}>{item.description}</p>}
         </div>
       </div>
     ))}
@@ -508,34 +539,80 @@ const TechStackCard = ({ content }: { content: any }) => (
     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
     {content.categories?.map((category: any, index: number) => (
       <div key={index} style={{
-        padding: '20px',
-        background: 'rgba(255, 255, 255, 0.03)',
+        position: 'relative',
+        padding: '28px',
+        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)',
         backdropFilter: 'blur(10px)',
-        borderRadius: '16px',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-          {category.icon && <span style={{ fontSize: '28px' }}>{category.icon}</span>}
-          <h3 style={{ fontWeight: '600', fontSize: '18px', color: '#FFFFFF' }}>{category.name}</h3>
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          {category.items?.map((item: string, itemIndex: number) => (
-            <span
-              key={itemIndex}
-              style={{
-                padding: '8px 16px',
-                background: 'rgba(102, 126, 234, 0.15)',
-                color: '#C4B5FD',
-                borderRadius: '12px',
-                fontSize: '13px',
-                fontWeight: '500',
-                border: '1px solid rgba(102, 126, 234, 0.3)',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              {item}
-            </span>
-          ))}
+        borderRadius: '20px',
+        border: '1px solid rgba(59, 130, 246, 0.2)',
+        transition: 'all 0.3s ease',
+        overflow: 'hidden',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.08) 100%)';
+        e.currentTarget.style.transform = 'translateX(4px)';
+        e.currentTarget.style.boxShadow = '0 8px 32px rgba(59, 130, 246, 0.25)';
+        e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)';
+        e.currentTarget.style.transform = 'translateX(0)';
+        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.2)';
+      }}
+      >
+        <div style={{
+          position: 'absolute',
+          top: '-20px',
+          right: '-20px',
+          width: '100px',
+          height: '100px',
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(30px)',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '12px', 
+            marginBottom: '20px',
+            paddingBottom: '12px',
+            borderBottom: '2px solid rgba(59, 130, 246, 0.2)',
+          }}>
+            <Code size={24} color="#60A5FA" />
+            <h3 style={{ fontWeight: '700', fontSize: '20px', color: '#BFDBFE' }}>{category.name}</h3>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            {category.items?.map((item: string, itemIndex: number) => (
+              <span
+                key={itemIndex}
+                style={{
+                  padding: '10px 18px',
+                  background: 'rgba(59, 130, 246, 0.2)',
+                  color: '#BFDBFE',
+                  borderRadius: '12px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  border: '1px solid rgba(59, 130, 246, 0.3)',
+                  transition: 'all 0.2s ease',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
+                }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     ))}
@@ -544,34 +621,72 @@ const TechStackCard = ({ content }: { content: any }) => (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CompanyValueCard = ({ content }: { content: any }) => (
-  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
     {content.metrics?.map((metric: any, index: number) => (
       <div key={index} style={{
-        padding: '20px',
-        background: 'rgba(255, 255, 255, 0.03)',
+        position: 'relative',
+        padding: '28px',
+        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.06) 100%)',
         backdropFilter: 'blur(10px)',
-        borderRadius: '16px',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: '20px',
+        border: '1px solid rgba(16, 185, 129, 0.25)',
         transition: 'all 0.3s ease',
+        overflow: 'hidden',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-        e.currentTarget.style.transform = 'translateY(-4px)';
-        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.3)';
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(5, 150, 105, 0.1) 100%)';
+        e.currentTarget.style.transform = 'translateY(-6px) scale(1.03)';
+        e.currentTarget.style.boxShadow = '0 16px 40px rgba(16, 185, 129, 0.3)';
+        e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.4)';
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
-        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.06) 100%)';
+        e.currentTarget.style.transform = 'translateY(0) scale(1)';
         e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.25)';
       }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-          <span style={{ fontSize: '28px' }}>{metric.icon}</span>
-          <span style={{ fontSize: '28px', fontWeight: '700', color: '#10B981' }}>{metric.value}</span>
+        <div style={{
+          position: 'absolute',
+          bottom: '-30px',
+          left: '-30px',
+          width: '120px',
+          height: '120px',
+          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ 
+            display: 'inline-flex',
+            padding: '12px 20px',
+            background: 'rgba(16, 185, 129, 0.2)',
+            borderRadius: '12px',
+            border: '1px solid rgba(16, 185, 129, 0.3)',
+            marginBottom: '16px',
+          }}>
+            <TrendingUp size={24} color="#10B981" />
+          </div>
+          <div style={{ 
+            fontSize: '36px', 
+            fontWeight: '800', 
+            color: '#6EE7B7',
+            marginBottom: '8px',
+            textShadow: '0 2px 8px rgba(16, 185, 129, 0.4)',
+          }}>{metric.value}</div>
+          <h3 style={{ 
+            fontWeight: '700', 
+            fontSize: '18px',
+            marginBottom: '8px', 
+            color: '#D1FAE5'
+          }}>{metric.metric}</h3>
+          {metric.description && <p style={{ 
+            fontSize: '14px', 
+            color: 'rgba(255, 255, 255, 0.7)',
+            lineHeight: '1.5'
+          }}>{metric.description}</p>}
         </div>
-        <h3 style={{ fontWeight: '600', marginBottom: '4px', color: '#FFFFFF' }}>{metric.metric}</h3>
-        {metric.description && <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.6)' }}>{metric.description}</p>}
       </div>
     ))}
   </div>
@@ -579,33 +694,124 @@ const CompanyValueCard = ({ content }: { content: any }) => (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CareerPathCard = ({ content }: { content: any }) => (
-  <div className="space-y-4">
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
     {content.levels?.map((level: any, index: number) => (
-      <div key={index} className="p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-3xl">{level.icon}</span>
-          <div className="flex-1">
-            <h3 className="font-semibold text-xl">{level.level}</h3>
-            <p className="text-sm text-gray-400">{level.duration}</p>
+      <div 
+        key={index} 
+        style={{
+          position: 'relative',
+          padding: '28px',
+          background: `linear-gradient(135deg, rgba(236, 72, 153, ${0.08 + index * 0.02}) 0%, rgba(219, 39, 119, ${0.04 + index * 0.01}) 100%)`,
+          backdropFilter: 'blur(10px)',
+          borderRadius: '20px',
+          borderLeft: `4px solid rgba(236, 72, 153, ${0.4 + index * 0.1})`,
+          border: '1px solid rgba(236, 72, 153, 0.2)',
+          transition: 'all 0.3s ease',
+          overflow: 'hidden',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = `linear-gradient(135deg, rgba(236, 72, 153, ${0.12 + index * 0.02}) 0%, rgba(219, 39, 119, ${0.06 + index * 0.01}) 100%)`;
+          e.currentTarget.style.transform = 'translateX(8px)';
+          e.currentTarget.style.boxShadow = '0 8px 32px rgba(236, 72, 153, 0.25)';
+          e.currentTarget.style.borderLeftColor = `rgba(236, 72, 153, ${0.6 + index * 0.1})`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = `linear-gradient(135deg, rgba(236, 72, 153, ${0.08 + index * 0.02}) 0%, rgba(219, 39, 119, ${0.04 + index * 0.01}) 100%)`;
+          e.currentTarget.style.transform = 'translateX(0)';
+          e.currentTarget.style.boxShadow = 'none';
+          e.currentTarget.style.borderLeftColor = `rgba(236, 72, 153, ${0.4 + index * 0.1})`;
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          right: '-50px',
+          width: '150px',
+          height: '150px',
+          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+          transform: 'translateY(-50%)',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+            <div style={{
+              padding: '12px',
+              background: 'rgba(236, 72, 153, 0.2)',
+              borderRadius: '12px',
+              border: '1px solid rgba(236, 72, 153, 0.3)',
+            }}>
+              <Award size={24} color="#F9A8D4" />
+            </div>
+            <div style={{ flex: 1 }}>
+              <h3 style={{ 
+                fontWeight: '800', 
+                fontSize: '22px', 
+                color: '#FDF2F8',
+                marginBottom: '4px'
+              }}>{level.level}</h3>
+              <p style={{ 
+                fontSize: '14px', 
+                color: 'rgba(255, 255, 255, 0.6)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+              }}>
+                <Clock size={14} />
+                {level.duration}
+              </p>
+            </div>
+            <div style={{
+              padding: '8px 16px',
+              background: 'rgba(16, 185, 129, 0.2)',
+              borderRadius: '12px',
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+            }}>
+              <p style={{ 
+                color: '#6EE7B7', 
+                fontWeight: '700',
+                fontSize: '15px'
+              }}>{level.salary_range}</p>
+            </div>
           </div>
-          <div className="text-right">
-            <p className="text-green-400 font-semibold">{level.salary_range}</p>
-          </div>
+          <p style={{ 
+            color: 'rgba(255, 255, 255, 0.8)', 
+            marginBottom: '16px',
+            lineHeight: '1.6',
+            fontSize: '15px'
+          }}>{level.description}</p>
+          {level.responsibilities && (
+            <div style={{ 
+              marginTop: '16px',
+              padding: '16px',
+              background: 'rgba(255, 255, 255, 0.03)',
+              borderRadius: '12px',
+            }}>
+              <ul style={{ 
+                fontSize: '14px', 
+                color: 'rgba(255, 255, 255, 0.7)',
+                margin: 0,
+                padding: 0,
+                listStyle: 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+              }}>
+                {level.responsibilities.map((resp: string, idx: number) => (
+                  <li key={idx} style={{ 
+                    display: 'flex', 
+                    alignItems: 'flex-start', 
+                    gap: '8px' 
+                  }}>
+                    <span style={{ color: '#F9A8D4', fontWeight: '700' }}>▸</span>
+                    <span>{resp}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-        <p className="text-gray-300 mb-2">{level.description}</p>
-        {level.responsibilities && (
-          <div className="mt-2">
-            <ul className="text-sm text-gray-400 space-y-1">
-              {level.responsibilities.map((resp: string, idx: number) => (
-                <li key={idx} className="flex items-start gap-2">
-                  <span className="text-purple-400">•</span>
-                  <span>{resp}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     ))}
   </div>
@@ -613,70 +819,311 @@ const CareerPathCard = ({ content }: { content: any }) => (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MarketOverviewCard = ({ content }: { content: any }) => (
-  <div className="space-y-4">
-    <div className="grid md:grid-cols-2 gap-4">
-      <div className="p-4 bg-gradient-to-br from-green-600/20 to-green-800/20 rounded-lg border border-green-500/30">
-        <h3 className="font-semibold mb-2">Спрос на рынке</h3>
-        <p className="text-2xl font-bold text-green-400 mb-1">{content.demand}</p>
-        <p className="text-sm text-gray-300">{content.demand_description}</p>
-        <p className="text-sm text-purple-400 mt-2">{content.vacancies_count}</p>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div style={{ 
+      display: 'grid', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+      gap: '20px' 
+    }}>
+      <div 
+        style={{
+          position: 'relative',
+          padding: '28px',
+          background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(21, 128, 61, 0.08) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(34, 197, 94, 0.3)',
+          overflow: 'hidden',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.03)';
+          e.currentTarget.style.boxShadow = '0 12px 32px rgba(34, 197, 94, 0.3)';
+          e.currentTarget.style.borderColor = 'rgba(34, 197, 94, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = 'none';
+          e.currentTarget.style.borderColor = 'rgba(34, 197, 94, 0.3)';
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          top: '-40px',
+          right: '-40px',
+          width: '120px',
+          height: '120px',
+          background: 'radial-gradient(circle, rgba(34, 197, 94, 0.2) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <h3 style={{ 
+            fontWeight: '700', 
+            marginBottom: '16px', 
+            color: '#D1FAE5',
+            fontSize: '18px'
+          }}>📊 Спрос на рынке</h3>
+          <p style={{ 
+            fontSize: '32px', 
+            fontWeight: '800', 
+            color: '#6EE7B7', 
+            marginBottom: '8px',
+            textShadow: '0 2px 8px rgba(34, 197, 94, 0.4)',
+          }}>{content.demand}</p>
+          <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)', lineHeight: '1.5' }}>
+            {content.demand_description}
+          </p>
+          <p style={{ 
+            fontSize: '14px', 
+            color: '#C4B5FD', 
+            marginTop: '12px',
+            fontWeight: '600'
+          }}>{content.vacancies_count}</p>
+        </div>
       </div>
       
-      <div className="p-4 bg-gradient-to-br from-purple-600/20 to-purple-800/20 rounded-lg border border-purple-500/30">
-        <h3 className="font-semibold mb-2">Конкуренция</h3>
-        <p className="text-2xl font-bold text-purple-400 mb-1">{content.competition}</p>
-        <div className="flex items-center gap-2 mt-2">
-          <div className="flex-1 bg-gray-700 rounded-full h-2">
-            <div
-              className="bg-purple-500 h-2 rounded-full"
-              style={{ width: `${(content.competition_level / 10) * 100}%` }}
-            />
+      <div 
+        style={{
+          position: 'relative',
+          padding: '28px',
+          background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(126, 34, 206, 0.08) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(147, 51, 234, 0.3)',
+          overflow: 'hidden',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.03)';
+          e.currentTarget.style.boxShadow = '0 12px 32px rgba(147, 51, 234, 0.3)';
+          e.currentTarget.style.borderColor = 'rgba(147, 51, 234, 0.5)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = 'none';
+          e.currentTarget.style.borderColor = 'rgba(147, 51, 234, 0.3)';
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          bottom: '-40px',
+          left: '-40px',
+          width: '120px',
+          height: '120px',
+          background: 'radial-gradient(circle, rgba(147, 51, 234, 0.2) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <h3 style={{ 
+            fontWeight: '700', 
+            marginBottom: '16px', 
+            color: '#E9D5FF',
+            fontSize: '18px'
+          }}>⚔️ Конкуренция</h3>
+          <p style={{ 
+            fontSize: '32px', 
+            fontWeight: '800', 
+            color: '#C4B5FD', 
+            marginBottom: '12px',
+            textShadow: '0 2px 8px rgba(147, 51, 234, 0.4)',
+          }}>{content.competition}</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '16px' }}>
+            <div style={{ 
+              flex: 1, 
+              background: 'rgba(255, 255, 255, 0.1)', 
+              borderRadius: '12px', 
+              height: '10px',
+              overflow: 'hidden'
+            }}>
+              <div
+                style={{ 
+                  background: 'linear-gradient(90deg, #A78BFA 0%, #8B5CF6 100%)', 
+                  height: '10px', 
+                  borderRadius: '12px',
+                  width: `${(content.competition_level / 10) * 100}%`,
+                  transition: 'width 0.5s ease',
+                }}
+              />
+            </div>
+            <span style={{ 
+              fontSize: '16px', 
+              fontWeight: '700',
+              color: '#C4B5FD'
+            }}>{content.competition_level}/10</span>
           </div>
-          <span className="text-sm">{content.competition_level}/10</span>
         </div>
       </div>
     </div>
 
-    <div className="p-4 bg-gray-800/50 rounded-lg">
-      <div className="flex items-center gap-2 mb-2">
-        <TrendingUp className="w-5 h-5 text-green-400" />
-        <h3 className="font-semibold">Потенциал роста</h3>
+    <div 
+      style={{
+        position: 'relative',
+        padding: '28px',
+        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)',
+        borderRadius: '20px',
+        border: '1px solid rgba(16, 185, 129, 0.25)',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.08) 100%)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow = '0 12px 32px rgba(16, 185, 129, 0.25)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)';
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+        <TrendingUp size={24} color="#10B981" />
+        <h3 style={{ fontWeight: '700', color: '#D1FAE5', fontSize: '18px' }}>
+          Потенциал роста
+        </h3>
       </div>
-      <div className="flex items-center gap-2 mb-3">
-        <div className="flex-1 bg-gray-700 rounded-full h-2">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+        <div style={{ 
+          flex: 1, 
+          background: 'rgba(255, 255, 255, 0.1)', 
+          borderRadius: '12px', 
+          height: '10px',
+          overflow: 'hidden'
+        }}>
           <div
-            className="bg-green-500 h-2 rounded-full"
-            style={{ width: `${(content.growth_potential / 10) * 100}%` }}
+            style={{ 
+              background: 'linear-gradient(90deg, #10B981 0%, #059669 100%)', 
+              height: '10px', 
+              borderRadius: '12px',
+              width: `${(content.growth_potential / 10) * 100}%`,
+              transition: 'width 0.5s ease',
+            }}
           />
         </div>
-        <span className="text-sm text-green-400">{content.growth_potential}/10</span>
+        <span style={{ 
+          fontSize: '16px', 
+          fontWeight: '700',
+          color: '#6EE7B7'
+        }}>{content.growth_potential}/10</span>
       </div>
-      <p className="text-gray-300">{content.future_outlook}</p>
+      <p style={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6' }}>
+        {content.future_outlook}
+      </p>
     </div>
 
-    <div className="p-4 bg-gradient-to-r from-yellow-600/20 to-green-600/20 rounded-lg border border-yellow-500/30">
-      <h3 className="font-semibold mb-2">Диапазон зарплат</h3>
-      <p className="text-2xl font-bold text-yellow-400">{content.salary_range}</p>
+    <div 
+      style={{
+        position: 'relative',
+        padding: '28px',
+        background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%)',
+        borderRadius: '20px',
+        border: '1px solid rgba(251, 191, 36, 0.3)',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'scale(1.02)';
+        e.currentTarget.style.boxShadow = '0 12px 32px rgba(251, 191, 36, 0.3)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
+    >
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        right: '-50px',
+        width: '150px',
+        height: '150px',
+        background: 'radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 70%)',
+        borderRadius: '50%',
+        filter: 'blur(40px)',
+        transform: 'translateY(-50%)',
+      }} />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '16px', 
+          color: '#FEF3C7',
+          fontSize: '18px'
+        }}>💰 Диапазон зарплат</h3>
+        <p style={{ 
+          fontSize: '36px', 
+          fontWeight: '800', 
+          color: '#FCD34D',
+          textShadow: '0 2px 8px rgba(251, 191, 36, 0.4)',
+        }}>{content.salary_range}</p>
+      </div>
     </div>
   </div>
 );
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SkillsCard = ({ content }: { content: any }) => (
-  <div className="space-y-6">
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
     <div>
-      <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-        <Code className="w-5 h-5 text-purple-400" />
+      <h3 style={{
+        fontWeight: '700',
+        fontSize: '20px',
+        marginBottom: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        color: '#E9D5FF',
+      }}>
+        <div style={{
+          padding: '10px',
+          background: 'rgba(167, 139, 250, 0.2)',
+          borderRadius: '10px',
+          border: '1px solid rgba(167, 139, 250, 0.3)',
+          display: 'flex',
+        }}>
+          <Code size={20} color="#A78BFA" />
+        </div>
         Hard Skills
       </h3>
-      <div className="grid md:grid-cols-2 gap-3">
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+        gap: '16px' 
+      }}>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {content.hard_skills?.map((skill: any, index: number) => (
-          <div key={index} className="flex items-center gap-2 p-3 bg-gray-800/50 rounded-lg">
-            <span className="text-xl">{skill.icon}</span>
-            <div className="flex-1">
-              <p className="font-medium">{skill.skill}</p>
-              <p className="text-xs text-gray-400">{skill.importance}</p>
+          <div 
+            key={index} 
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '20px',
+              background: 'linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%)',
+              borderRadius: '16px',
+              border: '1px solid rgba(167, 139, 250, 0.2)',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(167, 139, 250, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%)';
+              e.currentTarget.style.transform = 'translateX(4px)';
+              e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%)';
+              e.currentTarget.style.transform = 'translateX(0)';
+              e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.2)';
+            }}
+          >
+            <div style={{ flex: 1 }}>
+              <p style={{ 
+                fontWeight: '700', 
+                color: '#E9D5FF',
+                marginBottom: '4px',
+                fontSize: '16px'
+              }}>{skill.skill}</p>
+              <p style={{ 
+                fontSize: '13px', 
+                color: 'rgba(255, 255, 255, 0.6)'
+              }}>{skill.importance}</p>
             </div>
           </div>
         ))}
@@ -684,18 +1131,67 @@ const SkillsCard = ({ content }: { content: any }) => (
     </div>
 
     <div>
-      <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-        <Users className="w-5 h-5 text-blue-400" />
+      <h3 style={{
+        fontWeight: '700',
+        fontSize: '20px',
+        marginBottom: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        color: '#BFDBFE',
+      }}>
+        <div style={{
+          padding: '10px',
+          background: 'rgba(59, 130, 246, 0.2)',
+          borderRadius: '10px',
+          border: '1px solid rgba(59, 130, 246, 0.3)',
+          display: 'flex',
+        }}>
+          <Users size={20} color="#60A5FA" />
+        </div>
         Soft Skills
       </h3>
-      <div className="grid md:grid-cols-2 gap-3">
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+        gap: '16px' 
+      }}>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {content.soft_skills?.map((skill: any, index: number) => (
-          <div key={index} className="flex items-center gap-2 p-3 bg-gray-800/50 rounded-lg">
-            <span className="text-xl">{skill.icon}</span>
-            <div className="flex-1">
-              <p className="font-medium">{skill.skill}</p>
-              <p className="text-xs text-gray-400">{skill.importance}</p>
+          <div 
+            key={index} 
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '20px',
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)',
+              borderRadius: '16px',
+              border: '1px solid rgba(59, 130, 246, 0.2)',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.08) 100%)';
+              e.currentTarget.style.transform = 'translateX(4px)';
+              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)';
+              e.currentTarget.style.transform = 'translateX(0)';
+              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.2)';
+            }}
+          >
+            <div style={{ flex: 1 }}>
+              <p style={{ 
+                fontWeight: '700', 
+                color: '#BFDBFE',
+                marginBottom: '4px',
+                fontSize: '16px'
+              }}>{skill.skill}</p>
+              <p style={{ 
+                fontSize: '13px', 
+                color: 'rgba(255, 255, 255, 0.6)'
+              }}>{skill.importance}</p>
             </div>
           </div>
         ))}
@@ -706,21 +1202,93 @@ const SkillsCard = ({ content }: { content: any }) => (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const EducationCard = ({ content }: { content: any }) => (
-  <div className="space-y-6">
-    <div className="p-4 bg-gray-800/50 rounded-lg">
-      <h3 className="font-semibold mb-2 flex items-center gap-2">
-        <BookOpen className="w-5 h-5 text-purple-400" />
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div 
+      style={{
+        position: 'relative',
+        padding: '28px',
+        background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.05) 100%)',
+        borderRadius: '20px',
+        border: '1px solid rgba(249, 115, 22, 0.25)',
+        transition: 'all 0.3s ease',
+        overflow: 'hidden',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(234, 88, 12, 0.08) 100%)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow = '0 12px 32px rgba(249, 115, 22, 0.25)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.05) 100%)';
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
+    >
+      <h3 style={{ 
+        fontWeight: '700', 
+        marginBottom: '16px', 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '12px',
+        color: '#FED7AA',
+        fontSize: '18px'
+      }}>
+        <BookOpen size={20} color="#FB923C" />
         Формальное образование
       </h3>
-      <p className="text-gray-300">{content.formal_education}</p>
+      <p style={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6' }}>{content.formal_education}</p>
     </div>
 
     {content.alternative_paths && (
-      <div className="p-4 bg-gray-800/50 rounded-lg">
-        <h3 className="font-semibold mb-3">Альтернативные пути</h3>
-        <div className="flex flex-wrap gap-2">
+      <div 
+        style={{
+          padding: '28px',
+          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(59, 130, 246, 0.25)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.08) 100%)';
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 12px 32px rgba(59, 130, 246, 0.25)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+      >
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '16px', 
+          color: '#BFDBFE',
+          fontSize: '18px'
+        }}>Альтернативные пути</h3>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
           {content.alternative_paths.map((path: string, index: number) => (
-            <span key={index} className="px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm border border-blue-500/30">
+            <span 
+              key={index} 
+              style={{
+                padding: '10px 18px',
+                background: 'rgba(59, 130, 246, 0.2)',
+                color: '#BFDBFE',
+                borderRadius: '16px',
+                fontSize: '14px',
+                fontWeight: '600',
+                border: '1px solid rgba(59, 130, 246, 0.3)',
+                transition: 'all 0.2s ease',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(59, 130, 246, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
               {path}
             </span>
           ))}
@@ -729,36 +1297,134 @@ const EducationCard = ({ content }: { content: any }) => (
     )}
 
     {content.courses && (
-      <div className="p-4 bg-gray-800/50 rounded-lg">
-        <h3 className="font-semibold mb-3">Рекомендуемые курсы</h3>
-        <div className="space-y-2">
+      <div 
+        style={{
+          padding: '28px',
+          background: 'linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(167, 139, 250, 0.25)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(167, 139, 250, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%)';
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 12px 32px rgba(167, 139, 250, 0.25)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%)';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+      >
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '20px', 
+          color: '#E9D5FF',
+          fontSize: '18px'
+        }}>Рекомендуемые курсы</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {content.courses.map((course: any, index: number) => (
-            <div key={index} className="flex items-center justify-between p-2 bg-gray-700/50 rounded">
+            <div 
+              key={index} 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '16px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                borderRadius: '12px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+                e.currentTarget.style.transform = 'translateX(4px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                e.currentTarget.style.transform = 'translateX(0)';
+              }}
+            >
               <div>
-                <p className="font-medium">{course.course}</p>
-                <p className="text-sm text-gray-400">{course.platform}</p>
+                <p style={{ fontWeight: '600', color: '#E9D5FF', marginBottom: '4px' }}>{course.course}</p>
+                <p style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.6)' }}>{course.platform}</p>
               </div>
-              <span className="text-sm text-purple-400">{course.duration}</span>
+              <span style={{ fontSize: '14px', color: '#C4B5FD', fontWeight: '600' }}>{course.duration}</span>
             </div>
           ))}
         </div>
       </div>
     )}
 
-    <div className="p-4 bg-purple-600/20 rounded-lg border border-purple-500/30">
-      <p className="text-sm text-gray-300">
-        <span className="font-semibold text-purple-300">Срок обучения:</span> {content.learning_time}
+    <div 
+      style={{
+        padding: '20px 28px',
+        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.1) 100%)',
+        borderRadius: '16px',
+        border: '1px solid rgba(139, 92, 246, 0.3)',
+      }}
+    >
+      <p style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.8)' }}>
+        <span style={{ fontWeight: '700', color: '#DDD6FE' }}>⏱️ Срок обучения:</span> {content.learning_time}
       </p>
     </div>
 
     {content.certifications && (
-      <div className="p-4 bg-gray-800/50 rounded-lg">
-        <h3 className="font-semibold mb-3">Полезные сертификации</h3>
-        <div className="flex flex-wrap gap-2">
+      <div 
+        style={{
+          padding: '28px',
+          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(16, 185, 129, 0.25)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.08) 100%)';
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 12px 32px rgba(16, 185, 129, 0.25)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+      >
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '16px', 
+          color: '#D1FAE5',
+          fontSize: '18px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}>
+          <Award size={20} color="#10B981" />
+          Полезные сертификации
+        </h3>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
           {content.certifications.map((cert: string, index: number) => (
-            <span key={index} className="px-3 py-1 bg-green-600/20 text-green-300 rounded-full text-sm border border-green-500/30">
-              <Award className="w-3 h-3 inline mr-1" />
+            <span 
+              key={index} 
+              style={{
+                padding: '10px 18px',
+                background: 'rgba(16, 185, 129, 0.2)',
+                color: '#6EE7B7',
+                borderRadius: '16px',
+                fontSize: '14px',
+                fontWeight: '600',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                transition: 'all 0.2s ease',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(16, 185, 129, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(16, 185, 129, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
               {cert}
             </span>
           ))}
@@ -770,34 +1436,122 @@ const EducationCard = ({ content }: { content: any }) => (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ProsConsCard = ({ content }: { content: any }) => (
-  <div className="grid md:grid-cols-2 gap-6">
+  <div style={{ 
+    display: 'grid', 
+    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
+    gap: '24px' 
+  }}>
     <div>
-      <h3 className="font-semibold text-lg mb-3 flex items-center gap-2 text-green-400">
-        <CheckCircle className="w-5 h-5" />
+      <h3 style={{
+        fontWeight: '700',
+        fontSize: '20px',
+        marginBottom: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        color: '#6EE7B7',
+      }}>
+        <div style={{
+          padding: '10px',
+          background: 'rgba(16, 185, 129, 0.2)',
+          borderRadius: '10px',
+          border: '1px solid rgba(16, 185, 129, 0.3)',
+          display: 'flex',
+        }}>
+          <CheckCircle size={20} color="#10B981" />
+        </div>
         Плюсы
       </h3>
-      <div className="space-y-2">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {content.pros?.map((pro: any, index: number) => (
-          <div key={index} className="flex items-start gap-2 p-3 bg-green-600/10 rounded-lg border border-green-500/20">
-            <span className="text-xl">{pro.icon}</span>
-            <p className="flex-1 text-gray-300">{pro.text}</p>
+          <div 
+            key={index} 
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '12px',
+              padding: '20px',
+              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)',
+              borderRadius: '16px',
+              border: '1px solid rgba(16, 185, 129, 0.2)',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.08) 100%)';
+              e.currentTarget.style.transform = 'translateX(4px)';
+              e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)';
+              e.currentTarget.style.transform = 'translateX(0)';
+              e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+            }}
+          >
+            <p style={{ 
+              flex: 1, 
+              color: 'rgba(255, 255, 255, 0.85)',
+              lineHeight: '1.6',
+              fontSize: '15px'
+            }}>{pro.text}</p>
           </div>
         ))}
       </div>
     </div>
 
     <div>
-      <h3 className="font-semibold text-lg mb-3 flex items-center gap-2 text-red-400">
-        <XCircle className="w-5 h-5" />
+      <h3 style={{
+        fontWeight: '700',
+        fontSize: '20px',
+        marginBottom: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        color: '#FCA5A5',
+      }}>
+        <div style={{
+          padding: '10px',
+          background: 'rgba(239, 68, 68, 0.2)',
+          borderRadius: '10px',
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+          display: 'flex',
+        }}>
+          <XCircle size={20} color="#EF4444" />
+        </div>
         Минусы и вызовы
       </h3>
-      <div className="space-y-2">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {content.cons?.map((con: any, index: number) => (
-          <div key={index} className="flex items-start gap-2 p-3 bg-red-600/10 rounded-lg border border-red-500/20">
-            <span className="text-xl">{con.icon}</span>
-            <p className="flex-1 text-gray-300">{con.text}</p>
+          <div 
+            key={index} 
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '12px',
+              padding: '20px',
+              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%)',
+              borderRadius: '16px',
+              border: '1px solid rgba(239, 68, 68, 0.2)',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.08) 100%)';
+              e.currentTarget.style.transform = 'translateX(4px)';
+              e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%)';
+              e.currentTarget.style.transform = 'translateX(0)';
+              e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+            }}
+          >
+            <p style={{ 
+              flex: 1, 
+              color: 'rgba(255, 255, 255, 0.85)',
+              lineHeight: '1.6',
+              fontSize: '15px'
+            }}>{con.text}</p>
           </div>
         ))}
       </div>
@@ -807,49 +1561,201 @@ const ProsConsCard = ({ content }: { content: any }) => (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const WorkEnvironmentCard = ({ content }: { content: any }) => (
-  <div className="space-y-4">
-    <div className="p-4 bg-gray-800/50 rounded-lg">
-      <h3 className="font-semibold mb-2 flex items-center gap-2">
-        <Briefcase className="w-5 h-5 text-purple-400" />
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div 
+      style={{
+        padding: '28px',
+        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(124, 58, 237, 0.06) 100%)',
+        borderRadius: '20px',
+        border: '1px solid rgba(139, 92, 246, 0.25)',
+        transition: 'all 0.3s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(124, 58, 237, 0.1) 100%)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow = '0 12px 32px rgba(139, 92, 246, 0.25)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(124, 58, 237, 0.06) 100%)';
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
+    >
+      <h3 style={{ 
+        fontWeight: '700', 
+        marginBottom: '16px', 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '12px',
+        color: '#E9D5FF',
+        fontSize: '18px'
+      }}>
+        <Briefcase size={20} color="#A78BFA" />
         Рабочая обстановка
       </h3>
-      <p className="text-gray-300">{content.environment}</p>
+      <p style={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6' }}>{content.environment}</p>
     </div>
 
-    <div className="grid md:grid-cols-2 gap-4">
-      <div className="p-4 bg-gray-800/50 rounded-lg">
-        <h3 className="font-semibold mb-2">Формат работы</h3>
-        <div className="flex flex-wrap gap-2">
+    <div style={{ 
+      display: 'grid', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+      gap: '20px' 
+    }}>
+      <div 
+        style={{
+          padding: '24px',
+          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(59, 130, 246, 0.25)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.08) 100%)';
+          e.currentTarget.style.transform = 'scale(1.02)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)';
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+      >
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '16px', 
+          color: '#BFDBFE',
+          fontSize: '16px'
+        }}>Формат работы</h3>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {content.work_format?.map((format: string, index: number) => (
-            <span key={index} className="px-3 py-1 bg-blue-600/20 text-blue-300 rounded-full text-sm">
+            <span 
+              key={index} 
+              style={{
+                padding: '8px 14px',
+                background: 'rgba(59, 130, 246, 0.2)',
+                color: '#BFDBFE',
+                borderRadius: '12px',
+                fontSize: '13px',
+                fontWeight: '600',
+                border: '1px solid rgba(59, 130, 246, 0.3)',
+              }}
+            >
               {format}
             </span>
           ))}
         </div>
       </div>
 
-      <div className="p-4 bg-gray-800/50 rounded-lg">
-        <h3 className="font-semibold mb-2">Размер команды</h3>
-        <p className="text-gray-300">{content.team_size}</p>
+      <div 
+        style={{
+          padding: '24px',
+          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(16, 185, 129, 0.25)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.08) 100%)';
+          e.currentTarget.style.transform = 'scale(1.02)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)';
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+      >
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '12px', 
+          color: '#D1FAE5',
+          fontSize: '16px'
+        }}>Размер команды</h3>
+        <p style={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6' }}>{content.team_size}</p>
       </div>
     </div>
 
-    <div className="grid md:grid-cols-2 gap-4">
-      <div className="p-4 bg-gray-800/50 rounded-lg">
-        <h3 className="font-semibold mb-2">Корпоративная культура</h3>
-        <p className="text-gray-300">{content.culture}</p>
+    <div style={{ 
+      display: 'grid', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+      gap: '20px' 
+    }}>
+      <div 
+        style={{
+          padding: '24px',
+          background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.05) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(236, 72, 153, 0.25)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(219, 39, 119, 0.08) 100%)';
+          e.currentTarget.style.transform = 'scale(1.02)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.05) 100%)';
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+      >
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '12px', 
+          color: '#FDF2F8',
+          fontSize: '16px'
+        }}>Корпоративная культура</h3>
+        <p style={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6' }}>{content.culture}</p>
       </div>
 
-      <div className="p-4 bg-gray-800/50 rounded-lg">
-        <h3 className="font-semibold mb-2">Дресс-код</h3>
-        <p className="text-gray-300">{content.dress_code}</p>
+      <div 
+        style={{
+          padding: '24px',
+          background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.05) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(249, 115, 22, 0.25)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(234, 88, 12, 0.08) 100%)';
+          e.currentTarget.style.transform = 'scale(1.02)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.05) 100%)';
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+      >
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '12px', 
+          color: '#FED7AA',
+          fontSize: '16px'
+        }}>Дресс-код</h3>
+        <p style={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6' }}>{content.dress_code}</p>
       </div>
     </div>
 
     {content.equipment && (
-      <div className="p-4 bg-purple-600/20 rounded-lg border border-purple-500/30">
-        <h3 className="font-semibold mb-2">Типичное оборудование</h3>
-        <p className="text-gray-300">{content.equipment}</p>
+      <div 
+        style={{
+          padding: '28px',
+          background: 'linear-gradient(135deg, rgba(167, 139, 250, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%)',
+          borderRadius: '20px',
+          border: '1px solid rgba(167, 139, 250, 0.3)',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(167, 139, 250, 0.2) 0%, rgba(139, 92, 246, 0.12) 100%)';
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 12px 32px rgba(167, 139, 250, 0.25)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(167, 139, 250, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%)';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'none';
+        }}
+      >
+        <h3 style={{ 
+          fontWeight: '700', 
+          marginBottom: '16px', 
+          color: '#E9D5FF',
+          fontSize: '18px'
+        }}>⚙️ Типичное оборудование</h3>
+        <p style={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: '1.6' }}>{content.equipment}</p>
       </div>
     )}
   </div>
@@ -857,30 +1763,128 @@ const WorkEnvironmentCard = ({ content }: { content: any }) => (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TypicalProjectsCard = ({ content }: { content: any }) => (
-  <div className="space-y-4">
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
     {content.projects?.map((project: any, index: number) => (
-      <div key={index} className="p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition">
-        <div className="flex items-start gap-3 mb-3">
-          <span className="text-3xl">{project.icon}</span>
-          <div className="flex-1">
-            <h3 className="font-semibold text-lg mb-1">{project.title}</h3>
-            <p className="text-gray-300 mb-2">{project.description}</p>
-            <div className="flex items-center gap-4 text-sm text-gray-400">
-              <span>Сложность: <span className="text-purple-400">{project.complexity}</span></span>
-              <span>Длительность: <span className="text-purple-400">{project.duration}</span></span>
+      <div 
+        key={index} 
+        style={{
+          position: 'relative',
+          padding: '32px',
+          background: `linear-gradient(135deg, rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.1) 0%, rgba(${index % 3 === 0 ? '37, 99, 235' : index % 3 === 1 ? '5, 150, 105' : '219, 39, 119'}, 0.05) 100%)`,
+          borderRadius: '20px',
+          border: `1px solid rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.25)`,
+          transition: 'all 0.3s ease',
+          overflow: 'hidden',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = `linear-gradient(135deg, rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.15) 0%, rgba(${index % 3 === 0 ? '37, 99, 235' : index % 3 === 1 ? '5, 150, 105' : '219, 39, 119'}, 0.08) 100%)`;
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = `0 12px 32px rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.25)`;
+          e.currentTarget.style.borderColor = `rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.4)`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = `linear-gradient(135deg, rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.1) 0%, rgba(${index % 3 === 0 ? '37, 99, 235' : index % 3 === 1 ? '5, 150, 105' : '219, 39, 119'}, 0.05) 100%)`;
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'none';
+          e.currentTarget.style.borderColor = `rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.25)`;
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          top: '-50px',
+          right: '-50px',
+          width: '150px',
+          height: '150px',
+          background: `radial-gradient(circle, rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.15) 0%, transparent 70%)`,
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ 
+              fontWeight: '800', 
+              fontSize: '22px', 
+              marginBottom: '12px', 
+              color: index % 3 === 0 ? '#BFDBFE' : index % 3 === 1 ? '#D1FAE5' : '#FDF2F8'
+            }}>{project.title}</h3>
+            <p style={{ 
+              color: 'rgba(255, 255, 255, 0.8)', 
+              marginBottom: '16px',
+              lineHeight: '1.6',
+              fontSize: '15px'
+            }}>{project.description}</p>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '20px', 
+              flexWrap: 'wrap'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}>
+                <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}>⚡ Сложность:</span>
+                <span style={{ 
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  color: index % 3 === 0 ? '#93C5FD' : index % 3 === 1 ? '#6EE7B7' : '#F9A8D4'
+                }}>{project.complexity}</span>
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}>
+                <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}>⏱️ Длительность:</span>
+                <span style={{ 
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  color: index % 3 === 0 ? '#93C5FD' : index % 3 === 1 ? '#6EE7B7' : '#F9A8D4'
+                }}>{project.duration}</span>
+              </div>
             </div>
           </div>
+          {project.technologies && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '20px' }}>
+              {project.technologies.map((tech: string, techIndex: number) => (
+                <span 
+                  key={techIndex} 
+                  style={{
+                    padding: '8px 14px',
+                    background: `rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.2)`,
+                    color: index % 3 === 0 ? '#BFDBFE' : index % 3 === 1 ? '#D1FAE5' : '#FDF2F8',
+                    borderRadius: '10px',
+                    fontSize: '13px',
+                    fontWeight: '600',
+                    border: `1px solid rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.3)`,
+                    transition: 'all 0.2s ease',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = `rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.3)`;
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = `rgba(${index % 3 === 0 ? '59, 130, 246' : index % 3 === 1 ? '16, 185, 129' : '236, 72, 153'}, 0.2)`;
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-        {project.technologies && (
-          <div className="flex flex-wrap gap-2 mt-3">
-            {project.technologies.map((tech: string, techIndex: number) => (
-              <span key={techIndex} className="px-2 py-1 bg-purple-600/20 text-purple-300 rounded text-xs border border-purple-500/30">
-                {tech}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
     ))}
   </div>
