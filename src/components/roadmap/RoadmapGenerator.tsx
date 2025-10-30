@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ArrowLeft, Loader2, Download } from 'lucide-react';
 import { generateRoadmap } from '../../api/roadmap';
 import type { ProfessionRoadmap } from '../../types/roadmap';
@@ -7,10 +8,18 @@ import { RoadmapTimeline } from './RoadmapTimeline';
 import { exportRoadmapToPDF } from '../../utils/exportRoadmapToPDF';
 
 export function RoadmapGenerator() {
+  const location = useLocation();
   const [professionTitle, setProfessionTitle] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [roadmap, setRoadmap] = useState<ProfessionRoadmap | null>(null);
+
+  // Проверяем, пришли ли мы из списка сохранённых
+  useEffect(() => {
+    if (location.state?.savedRoadmap) {
+      setRoadmap(location.state.savedRoadmap);
+    }
+  }, [location.state]);
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -28,13 +28,6 @@ export interface RoadmapProject {
   skills: string[];
 }
 
-export interface RoadmapResource {
-  type: 'course' | 'book' | 'video' | 'documentation' | 'community' | 'certification';
-  title: string;
-  description: string;
-  link?: string;
-}
-
 export interface InterviewQuestion {
   question: string;
   answer: string;
@@ -50,7 +43,6 @@ export interface RoadmapStage {
   skills: RoadmapSkill[];
   tools: RoadmapTool[];
   projects: RoadmapProject[];
-  resources: RoadmapResource[];
   interviewQuestions: InterviewQuestion[];
 }
 

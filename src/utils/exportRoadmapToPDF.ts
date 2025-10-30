@@ -282,17 +282,6 @@ export function exportRoadmapToPDF(roadmap: ProfessionRoadmap) {
           </div>
           ` : ''}
 
-          ${stage.resources.length > 0 ? `
-          <div class="section">
-            <h3>📚 Ресурсы</h3>
-            <ul>
-              ${stage.resources.map(resource => `
-                <li><strong>${resource.title}</strong> (${resource.type}) - ${resource.description}</li>
-              `).join('')}
-            </ul>
-          </div>
-          ` : ''}
-
           ${stage.interviewQuestions && stage.interviewQuestions.length > 0 ? `
           <div class="section">
             <h3>💬 Вопросы на собеседовании</h3>
