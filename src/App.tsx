@@ -16,6 +16,8 @@ import { VibeGenerator, ProfessionVibeAnalyzer, AmbientViewer } from './componen
 import { ProfessionInfo } from './components/vibe/ProfessionInfo';
 import { AudioTest } from './components/audio/AudioTest';
 import { ImageGenerator } from './components/image/ImageGenerator';
+import { RoadmapGenerator } from './components/roadmap';
+import { SavedRoadmapsList } from './components/roadmap/SavedRoadmapsList';
 
 
 function App() {
@@ -168,6 +170,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <ImageGenerator />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/roadmap"
+            element={
+              <ProtectedRoute>
+                <RoadmapGenerator />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-roadmaps"
+            element={
+              <ProtectedRoute>
+                <SavedRoadmapsList />
               </ProtectedRoute>
             }
           />

@@ -220,7 +220,7 @@ export const ProfessionInfo = () => {
 
           {/* Road Map Button */}
           <button
-            onClick={() => navigate('/vibe/roadmap', { 
+            onClick={() => navigate('/roadmap', { 
               state: { 
                 professionTitle: state.professionTitle,
                 professionDescription: state.professionDescription 
@@ -252,7 +252,6 @@ export const ProfessionInfo = () => {
             }}
           >
             <span>Road Map</span>
-            
           </button>
         </div>
 
