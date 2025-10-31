@@ -8,8 +8,7 @@ import {
   LogOut,
   X,
   Sparkles,
-  ArrowRight,
-  Map
+  ArrowRight
 } from 'lucide-react';
 import { getAllPersonalityResults } from '../../api/personality';
 import { getAstrologyProfile } from '../../api/astrology';
@@ -256,252 +255,7 @@ export function LandingPage() {
 
       {/* Features Grid */}
       <section className="landing-features-grid">
-        {/* Feature 1 - My Roadmaps Card */}
-        <Link
-          to="/my-roadmaps"
-          style={{
-            background: 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)',
-            borderRadius: '20px',
-            overflow: 'hidden',
-            minHeight: '280px',
-            position: 'relative',
-            textDecoration: 'none',
-            padding: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '0 8px 32px rgba(132, 250, 176, 0.4)',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = '0 12px 40px rgba(132, 250, 176, 0.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 8px 32px rgba(132, 250, 176, 0.4)';
-          }}
-        >
-          <div style={{
-            position: 'absolute',
-            right: '15px',
-            top: '15px',
-            width: '80px',
-            height: '80px',
-            opacity: 0.2,
-            animation: 'float 6s ease-in-out infinite',
-          }}>
-            <Map size={80} color="rgba(255, 255, 255, 0.3)" strokeWidth={1.5} />
-          </div>
-
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%)`,
-            pointerEvents: 'none',
-          }} />
-
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            marginBottom: '16px',
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            <div style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '12px',
-              background: 'rgba(255, 255, 255, 0.2)',
-              backdropFilter: 'blur(10px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Map size={22} color="#FFFFFF" />
-            </div>
-            <div>
-              <div style={{ fontSize: '18px', fontWeight: '700', color: '#FFFFFF' }}>
-                Мои Roadmaps
-              </div>
-              <div style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.9)' }}>
-                Сохранённые планы
-              </div>
-            </div>
-          </div>
-
-          <p style={{
-            color: 'rgba(255, 255, 255, 0.95)',
-            fontSize: '13px',
-            lineHeight: '1.5',
-            marginBottom: '20px',
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            Посмотри свои сохранённые roadmaps и продолжи карьерное развитие
-          </p>
-
-          <div style={{
-            marginTop: 'auto',
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-            color: '#FFFFFF',
-            padding: '14px 20px',
-            borderRadius: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: '14px',
-            fontWeight: '600',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            position: 'relative',
-            zIndex: 1,
-            transition: 'all 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-            e.currentTarget.style.transform = 'translateX(4px)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-            e.currentTarget.style.transform = 'translateX(0)';
-          }}
-          >
-            Мои Roadmaps
-            <ArrowRight size={18} />
-          </div>
-        </Link>
-
-        {/* Feature 2 - Create Roadmap Card */}
-        <Link
-          to="/roadmap"
-          style={{
-            background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-            borderRadius: '20px',
-            overflow: 'hidden',
-            minHeight: '280px',
-            position: 'relative',
-            textDecoration: 'none',
-            padding: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '0 8px 32px rgba(240, 147, 251, 0.4)',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = '0 12px 40px rgba(240, 147, 251, 0.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 8px 32px rgba(240, 147, 251, 0.4)';
-          }}
-        >
-          <div style={{
-            position: 'absolute',
-            right: '15px',
-            top: '15px',
-            width: '80px',
-            height: '80px',
-            opacity: 0.2,
-            animation: 'float 6s ease-in-out infinite',
-          }}>
-            <Map size={80} color="rgba(255, 255, 255, 0.3)" strokeWidth={1.5} />
-          </div>
-
-          <div style={{
-            position: 'absolute',
-            left: '15px',
-            bottom: '40px',
-            width: '30px',
-            height: '30px',
-            opacity: 0.15,
-            animation: 'pulse 3s ease-in-out infinite',
-          }}>
-            <Sparkles size={30} color="rgba(255, 255, 255, 0.4)" />
-          </div>
-
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-                             radial-gradient(circle at 80% 80%, rgba(245, 87, 108, 0.15) 0%, transparent 50%)`,
-            pointerEvents: 'none',
-          }} />
-
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            marginBottom: '16px',
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            <div style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '12px',
-              background: 'rgba(255, 255, 255, 0.2)',
-              backdropFilter: 'blur(10px)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Map size={22} color="#FFFFFF" />
-            </div>
-            <div>
-              <div style={{ fontSize: '18px', fontWeight: '700', color: '#FFFFFF' }}>
-                Career Roadmap
-              </div>
-              <div style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.9)' }}>
-                План карьерного роста
-              </div>
-            </div>
-          </div>
-
-          <p style={{
-            color: 'rgba(255, 255, 255, 0.95)',
-            fontSize: '13px',
-            lineHeight: '1.5',
-            marginBottom: '20px',
-            position: 'relative',
-            zIndex: 1,
-          }}>
-            Получи персонализированный roadmap развития в профессии с учетом твоей личности и астрологического профиля
-          </p>
-
-          <div style={{
-            marginTop: 'auto',
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-            color: '#FFFFFF',
-            padding: '14px 20px',
-            borderRadius: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: '14px',
-            fontWeight: '600',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            position: 'relative',
-            zIndex: 1,
-            transition: 'all 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-            e.currentTarget.style.transform = 'translateX(4px)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-            e.currentTarget.style.transform = 'translateX(0)';
-          }}
-          >
-            Создать Roadmap
-            <ArrowRight size={18} />
-          </div>
-        </Link>
-
-        {/* Feature 3 - Personality Card */}
+        {/* Feature 4 - Personality Card */}
         <div
           style={{
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -725,7 +479,7 @@ export function LandingPage() {
           )}
         </div>
 
-        {/* Feature 4 - Astrology Card */}
+        {/* Feature 5 - Astrology Card */}
         <Link
           to="/astrology"
           style={{
@@ -1382,4 +1136,3 @@ export function LandingPage() {
     </div>
   );
 }
-

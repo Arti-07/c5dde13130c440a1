@@ -14,10 +14,28 @@ export function RoadmapGenerator() {
   const [error, setError] = useState('');
   const [roadmap, setRoadmap] = useState<ProfessionRoadmap | null>(null);
 
-  // Проверяем, пришли ли мы из списка сохранённых
+  // Проверяем, пришли ли мы из списка сохранённых или из ProfessionInfo
   useEffect(() => {
     if (location.state?.savedRoadmap) {
       setRoadmap(location.state.savedRoadmap);
+    } else if (location.state?.professionTitle) {
+      // Если пришли из ProfessionInfo, заполняем поле и автоматически генерируем roadmap
+      setProfessionTitle(location.state.professionTitle);
+      // Автоматическая генерация
+      const autoGenerate = async () => {
+        setLoading(true);
+        setError('');
+        try {
+          const response = await generateRoadmap(location.state.professionTitle);
+          setRoadmap(response.roadmap);
+        } catch (err: any) {
+          setError(err.message || 'Произошла ошибка при генерации roadmap. Попробуйте снова.');
+          console.error('Error generating roadmap:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      autoGenerate();
     }
   }, [location.state]);
 
