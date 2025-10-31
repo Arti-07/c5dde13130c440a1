@@ -211,13 +211,8 @@ export function AmbientViewer() {
 
   const handleNegativeVibe = () => {
     console.log('Negative vibe clicked!');
-    // Переход на страницу с детальной информацией
-    navigate('/vibe/profession-info', {
-      state: {
-        professionTitle: professionTitle,
-        professionDescription: textData?.profession_title
-      }
-    });
+    // Переход на страницу выбора профессии
+    navigate('/vibe');
   };
 
   if (loading) {
